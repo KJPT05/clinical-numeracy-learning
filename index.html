@@ -1,0 +1,2487 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#075985">
+    <title>Clinical Numeracy Learning</title>
+    <style>
+        :root {
+            --bg: #f4f8fc;
+            --surface: #fff;
+            --soft: #eef7fb;
+            --text: #172033;
+            --muted: #526174;
+            --border: #d6e2ea;
+            --primary: #08749a;
+            --primary-dark: #07536f;
+            --navy: #16364f;
+            --success: #137a45;
+            --success-bg: #edf9f1;
+            --danger: #ba1a1a;
+            --danger-bg: #fff0f0;
+            --warning-bg: #fff8df;
+            --shadow: 0 8px 25px rgba(21, 62, 87, .10);
+            --radius: 18px;
+            --tap: 48px
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%
+        }
+
+        body {
+            margin: 0;
+            min-width: 320px;
+            background: linear-gradient(180deg, #eaf5fb 0, var(--bg) 340px);
+            color: var(--text);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            line-height: 1.52
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit
+        }
+
+        button {
+            touch-action: manipulation
+        }
+
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible {
+            outline: 3px solid rgba(37, 99, 235, .35);
+            outline-offset: 2px
+        }
+
+        .app {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: max(14px, env(safe-area-inset-top)) 14px 100px
+        }
+
+        .screen {
+            display: none
+        }
+
+        .screen.active {
+            display: block
+        }
+
+        .brand,
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px
+        }
+
+        .brand {
+            margin: 4px 0 16px
+        }
+
+        .brand-name {
+            margin: 0;
+            color: var(--navy);
+            font-size: 1.22rem;
+            line-height: 1.15
+        }
+
+        .brand-subtitle {
+            display: block;
+            color: var(--muted);
+            font-size: .82rem;
+            font-weight: 600;
+            margin-top: 2px
+        }
+
+        .icon-button {
+            width: var(--tap);
+            min-width: var(--tap);
+            height: var(--tap);
+            display: inline-grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: var(--surface);
+            color: var(--navy);
+            cursor: pointer;
+            font-size: 1.2rem
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #08749a, #156b8b 55%, #1b506e);
+            color: #fff;
+            border-radius: 24px;
+            padding: 25px 20px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden
+        }
+
+        .hero:after {
+            content: "";
+            position: absolute;
+            width: 190px;
+            height: 190px;
+            border: 28px solid rgba(255, 255, 255, .10);
+            border-radius: 50%;
+            right: -90px;
+            top: -90px
+        }
+
+        .hero h1 {
+            position: relative;
+            margin: 0 0 8px;
+            font-size: clamp(1.65rem, 6vw, 2.25rem);
+            line-height: 1.13
+        }
+
+        .hero p {
+            position: relative;
+            margin: 0;
+            max-width: 46ch
+        }
+
+        .eyebrow {
+            display: inline-block;
+            margin: 0 0 8px;
+            color: #d9f5ff;
+            font-size: .8rem;
+            font-weight: 800;
+            letter-spacing: .07em;
+            text-transform: uppercase
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: 0 5px 16px rgba(21, 62, 87, .06);
+            padding: 18px;
+            margin-top: 15px
+        }
+
+        .card h2,
+        .card h3 {
+            margin: 0 0 8px;
+            color: var(--navy);
+            line-height: 1.25
+        }
+
+        .card h2 {
+            font-size: 1.18rem
+        }
+
+        .card h3 {
+            font-size: 1rem
+        }
+
+        .muted {
+            color: var(--muted)
+        }
+
+        .small {
+            font-size: .88rem
+        }
+
+        .notice {
+            background: var(--warning-bg);
+            border-left: 5px solid #e7a81d
+        }
+
+        .privacy {
+            background: var(--soft);
+            border-left: 5px solid var(--primary)
+        }
+
+        .button-row {
+            display: grid;
+            gap: 10px;
+            margin-top: 16px
+        }
+
+        .btn {
+            min-height: var(--tap);
+            border: 0;
+            border-radius: 13px;
+            padding: 12px 15px;
+            background: var(--primary);
+            color: #fff;
+            font-weight: 800;
+            cursor: pointer;
+            text-align: center
+        }
+
+        .btn:hover {
+            background: var(--primary-dark)
+        }
+
+        .btn.secondary {
+            background: #e7eef3;
+            color: #25445a
+        }
+
+        .btn.outline {
+            background: #fff;
+            color: var(--primary-dark);
+            border: 1px solid #8bb4c7
+        }
+
+        .btn.danger {
+            background: var(--danger)
+        }
+
+        .btn:disabled {
+            opacity: .55;
+            cursor: not-allowed
+        }
+
+        .mode-grid {
+            display: grid;
+            gap: 12px
+        }
+
+        .mode-card {
+            text-align: left;
+            background: var(--surface);
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 16px;
+            border-radius: 16px;
+            cursor: pointer
+        }
+
+        .mode-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow)
+        }
+
+        .mode-card strong {
+            display: block;
+            color: var(--navy);
+            font-size: 1.05rem;
+            margin-bottom: 3px
+        }
+
+        .mode-card span {
+            color: var(--muted);
+            font-size: .91rem
+        }
+
+        .workbook-card {
+            border-top: 6px solid var(--primary)
+        }
+
+        .workbook-card.respiratory {
+            border-top-color: #2563eb
+        }
+
+        .workbook-card.renal {
+            border-top-color: #0f766e
+        }
+
+        .workbook-card.blood {
+            border-top-color: #a21caf
+        }
+
+        .workbook-card.endocrine {
+            border-top-color: #d97706
+        }
+
+        .workbook-card.neuro {
+            border-top-color: #7c3aed
+        }
+        .workbook-card.mental-health {
+  border-top-color: #db2777;
+}
+
+.pill.mental-health {
+  background: #fce7f3;
+  color: #9d174d;
+}
+.workbook-card.immune {
+  border-top-color: #dc2626;
+}
+
+.pill.immune {
+  background: #fee2e2;
+  color: #991b1b;
+}
+.workbook-card.gastrointestinal {
+  border-top-color: #0f766e;
+}
+
+.pill.gastrointestinal {
+  background: #ccfbf1;
+  color: #115e59;
+}
+        .pill {
+            display: inline-block;
+            background: #dff4fb;
+            color: #07536f;
+            border-radius: 99px;
+            padding: 4px 9px;
+            font-size: .76rem;
+            font-weight: 800
+        }
+
+        .pill.respiratory {
+            background: #e8efff;
+            color: #254a9f
+        }
+
+        .pill.renal {
+            background: #dff7f3;
+            color: #0f5d55
+        }
+
+        .pill.blood {
+            background: #fae8ff;
+            color: #86198f
+        }
+
+        .pill.endocrine {
+            background: #fff3d6;
+            color: #92400e
+        }
+
+        .pill.neuro {
+            background: #ede9fe;
+            color: #5b21b6
+        }
+
+        .resume-line {
+            margin-top: 11px;
+            font-size: .9rem;
+            color: var(--muted)
+        }
+
+        .topbar {
+            justify-content: flex-start;
+            margin-bottom: 12px
+        }
+
+        .topbar .title-wrap {
+            flex: 1;
+            min-width: 0
+        }
+
+        .topbar h1 {
+            margin: 0;
+            color: var(--navy);
+            font-size: 1.05rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .topbar p {
+            margin: 2px 0 0;
+            color: var(--muted);
+            font-size: .8rem
+        }
+
+        .back-btn {
+            width: auto;
+            padding: 0 13px;
+            font-size: .9rem
+        }
+
+        .progress-card {
+            padding: 14px;
+            margin-top: 0
+        }
+
+        .progress-line {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            font-size: .87rem;
+            font-weight: 800
+        }
+
+        .progress-track {
+            height: 9px;
+            background: #dbe8ee;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 8px
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), #22a66a);
+            width: 0;
+            transition: width .25s ease
+        }
+
+        .question-nav {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 12px
+        }
+
+        .q-dot {
+            width: 28px;
+            height: 28px;
+            border: 1px solid #b6ccd8;
+            background: #fff;
+            color: #466176;
+            border-radius: 50%;
+            font-weight: 800;
+            cursor: pointer;
+            font-size: .76rem
+        }
+
+        .q-dot.current {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary)
+        }
+
+        .q-dot.correct {
+            background: var(--success);
+            color: #fff;
+            border-color: var(--success)
+        }
+
+        .q-dot.saved {
+            background: #dff1f8;
+            color: #07536f;
+            border-color: #7bb6cf
+        }
+
+        .q-dot.incorrect {
+            background: #f8d4d4;
+            color: #8c1d1d;
+            border-color: #df9999
+        }
+
+        .question-card {
+            padding: 19px
+        }
+
+        .question-topic {
+            color: var(--primary-dark);
+            font-size: .79rem;
+            font-weight: 900;
+            letter-spacing: .06em;
+            text-transform: uppercase
+        }
+
+        .question-card h2 {
+            margin-top: 5px;
+            font-size: 1.3rem
+        }
+
+        .context-box {
+            background: var(--soft);
+            border-radius: 14px;
+            padding: 13px;
+            margin: 14px 0;
+            border: 1px solid #d4eaf2
+        }
+
+        .context-box strong {
+            color: var(--navy)
+        }
+
+        .data-list {
+            display: grid;
+            gap: 8px;
+            margin-top: 10px
+        }
+
+        .data-item {
+            background: #fff;
+            border: 1px solid #dce8ee;
+            border-radius: 10px;
+            padding: 10px
+        }
+
+        .answer-area {
+            margin-top: 17px
+        }
+
+        label {
+            display: block;
+            font-weight: 800;
+            margin-bottom: 7px;
+            color: #263c50
+        }
+
+        .answer-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(120px, .76fr);
+            gap: 9px
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            border: 1px solid #bfcfd9;
+            color: var(--text);
+            background: #fff;
+            border-radius: 12px;
+            min-height: var(--tap);
+            padding: 11px 12px
+        }
+
+        textarea {
+            min-height: 92px;
+            resize: vertical
+        }
+
+        .working-toggle {
+            border: 0;
+            background: transparent;
+            color: var(--primary-dark);
+            padding: 7px 0;
+            font-weight: 800;
+            cursor: pointer;
+            text-decoration: underline
+        }
+
+        .working-wrap {
+            display: none;
+            margin-top: 4px
+        }
+
+        .working-wrap.open {
+            display: block
+        }
+
+        .tool-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin: 15px 0
+        }
+
+        .tool-row.two {
+            grid-template-columns: repeat(2, 1fr)
+        }
+
+        .tool-btn {
+            min-height: 44px;
+            padding: 8px;
+            border: 1px solid #a9c7d5;
+            color: var(--primary-dark);
+            background: #f8fcff;
+            border-radius: 11px;
+            cursor: pointer;
+            font-weight: 800;
+            font-size: .84rem
+        }
+
+        .tool-btn.dimmed {
+            color: #7f8d96;
+            background: #f3f5f6;
+            border-color: #d6dde1;
+            opacity: .78
+        }
+
+        .feedback {
+            margin-top: 15px;
+            border-radius: 14px;
+            padding: 14px;
+            display: none
+        }
+
+        .feedback.show {
+            display: block
+        }
+
+        .feedback.correct {
+            background: var(--success-bg);
+            color: #125b34;
+            border-left: 5px solid var(--success)
+        }
+
+        .feedback.error {
+            background: var(--danger-bg);
+            color: #7f1d1d;
+            border-left: 5px solid var(--danger)
+        }
+
+        .feedback.info {
+            background: #eef7ff;
+            color: #174a69;
+            border-left: 5px solid var(--primary)
+        }
+
+        .question-actions {
+            display: grid;
+            gap: 10px;
+            margin-top: 16px
+        }
+
+        .challenge-message {
+            background: #edf5ff;
+            border-left: 5px solid #2563eb;
+            color: #1d4e75;
+            padding: 12px;
+            border-radius: 12px;
+            margin-top: 12px;
+            font-size: .91rem
+        }
+
+        .saved-message {
+            background: #edf9f1;
+            border-left: 5px solid var(--success);
+            color: #125b34;
+            padding: 12px;
+            border-radius: 12px;
+            margin-top: 12px;
+            font-size: .91rem
+        }
+
+        .save-btn.saved {
+            background: var(--success)
+        }
+
+        .bottom-nav {
+            position: fixed;
+            z-index: 12;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 10px max(14px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+            background: rgba(244, 248, 252, .93);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid #d7e5ec
+        }
+
+        .bottom-nav-inner {
+            max-width: 760px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px
+        }
+
+        .sheet-backdrop {
+            display: none;
+            position: fixed;
+            z-index: 30;
+            inset: 0;
+            background: rgba(10, 30, 45, .30);
+            pointer-events: none
+        }
+
+        .sheet-backdrop.show {
+            display: block
+        }
+
+        .sheet {
+            position: fixed;
+            z-index: 31;
+            right: 12px;
+            bottom: calc(66px + env(safe-area-inset-bottom));
+            width: min(334px, calc(100% - 24px));
+            transform: translateY(calc(100% + 90px));
+            transition: transform .24s ease;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, .2);
+            max-height: min(62vh, 520px);
+            overflow: auto;
+            padding: 10px 12px 14px
+        }
+
+        .sheet.show {
+            transform: translateY(0)
+        }
+
+        .sheet-handle {
+            width: 38px;
+            height: 4px;
+            margin: 1px auto 9px;
+            background: #b5c6cf;
+            border-radius: 99px
+        }
+
+        .sheet-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px
+        }
+
+        .sheet-header h2 {
+            margin: 0;
+            font-size: 1.04rem;
+            color: var(--navy)
+        }
+
+        .close-sheet {
+            min-height: 35px;
+            border: 0;
+            background: #e8f0f4;
+            color: #274a60;
+            border-radius: 10px;
+            padding: 0 11px;
+            font-weight: 800;
+            cursor: pointer
+        }
+
+        .tool-panel {
+            display: none
+        }
+
+        .tool-panel.show {
+            display: block
+        }
+
+        .calc-display {
+            background: #0e2d3d;
+            color: #dcf8ff;
+            border-radius: 13px;
+            padding: 10px;
+            min-height: 62px;
+            margin: 11px 0 8px;
+            text-align: right;
+            overflow-wrap: anywhere
+        }
+
+        .calc-expression {
+            min-height: 20px;
+            opacity: .75;
+            font-size: .81rem
+        }
+
+        .calc-result {
+            font-size: 1.25rem;
+            font-weight: 800;
+            min-height: 26px
+        }
+
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px
+        }
+
+        .calc-key {
+            min-height: 40px;
+            border: 1px solid #c7d7df;
+            border-radius: 10px;
+            background: #fff;
+            color: #18384b;
+            font-weight: 900;
+            font-size: 1rem;
+            cursor: pointer
+        }
+
+        .calc-key.operator {
+            background: #e8f6fa;
+            color: var(--primary-dark)
+        }
+
+        .calc-key.equal {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary)
+        }
+
+        .calc-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 7px;
+            margin-top: 8px
+        }
+
+        .calc-actions .btn {
+            min-height: 39px;
+            padding: 8px;
+            font-size: .8rem
+        }
+
+        .calc-history {
+            margin-top: 10px
+        }
+
+        .calc-history ul {
+            list-style: none;
+            padding: 0;
+            margin: 6px 0 0;
+            display: grid;
+            gap: 5px
+        }
+
+        .calc-history li {
+            padding: 7px;
+            background: #f3f8fa;
+            border-radius: 8px;
+            font-size: .82rem;
+            color: #3b596b
+        }
+
+        .reference-list {
+            display: grid;
+            gap: 8px;
+            margin: 11px 0
+        }
+
+        .reference-item {
+            border: 1px solid #d8e6ec;
+            border-radius: 11px;
+            padding: 10px;
+            background: #fbfdff;
+            font-size: .9rem
+        }
+
+        .reference-item strong {
+            color: var(--navy)
+        }
+
+        .news-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .72rem;
+            margin-top: 8px
+        }
+
+        .news-table th,
+        .news-table td {
+            padding: 5px;
+            border: 1px solid #cfdde4;
+            text-align: left;
+            vertical-align: top
+        }
+
+        .news-table th {
+            background: #e9f4f8;
+            color: #173d54
+        }
+
+        .score-list {
+            max-height: 220px;
+            overflow: auto;
+            margin-top: 10px;
+            border: 1px solid #d8e6ec;
+            border-radius: 11px
+        }
+
+        .score-row {
+            padding: 9px 10px;
+            border-bottom: 1px solid #e2ebef;
+            font-size: .86rem
+        }
+
+        .score-row:last-child {
+            border-bottom: 0
+        }
+
+        .results-score {
+            text-align: center;
+            padding: 22px;
+            background: linear-gradient(135deg, #e8f7fb, #f3fbf5);
+            border-radius: 18px;
+            margin-top: 14px;
+            border: 1px solid #cde5db
+        }
+
+        .results-score .number {
+            color: var(--primary-dark);
+            font-size: 2.5rem;
+            line-height: 1;
+            font-weight: 900
+        }
+
+        .result-list {
+            list-style: none;
+            padding: 0;
+            margin: 12px 0 0;
+            display: grid;
+            gap: 9px
+        }
+
+        .result-list li {
+            border: 1px solid #d8e5eb;
+            border-radius: 12px;
+            padding: 11px;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center
+        }
+
+        .status-good {
+            color: var(--success);
+            font-weight: 900
+        }
+
+        .status-bad {
+            color: var(--danger);
+            font-weight: 900
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 50;
+            inset: 0;
+            background: rgba(10, 30, 45, .48);
+            padding: 20px;
+            overflow: auto
+        }
+
+        .modal.show {
+            display: grid;
+            place-items: center
+        }
+
+        .modal-card {
+            width: min(100%, 580px);
+            max-height: 90vh;
+            overflow: auto;
+            background: #fff;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, .22)
+        }
+
+        .modal-card h2 {
+            margin-top: 0;
+            color: var(--navy)
+        }
+
+        .modal-card p,
+        .modal-card li {
+            color: #425469
+        }
+
+        @media(min-width:560px) {
+            .app {
+                padding-left: 20px;
+                padding-right: 20px
+            }
+
+            .button-row.two-col {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .mode-grid {
+                grid-template-columns: repeat(3, 1fr)
+            }
+
+            .mode-card {
+                min-height: 154px
+            }
+
+            .question-actions {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .question-actions .btn:first-child:last-child {
+                grid-column: span 2
+            }
+
+            .sheet {
+                right: max(20px, calc((100vw - 720px)/2));
+                bottom: 75px
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition: none !important
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="app">
+        <section id="welcomeScreen" class="screen active">
+            <header class="brand">
+                <div>
+                    <h1 class="brand-name">Clinical Numeracy Learning<span class="brand-subtitle">Independent revision
+                            for healthcare learners</span></h1>
+                </div><button class="icon-button" id="aboutButton" type="button" aria-label="About this app">i</button>
+            </header>
+            <div class="hero"><span class="eyebrow">Case-based revision</span>
+                <h1>Practise calculations with confidence.</h1>
+                <p>Work through complete clinical numeracy workbooks at your own pace. Your progress stays on this
+                    device.</p>
+            </div>
+            <section class="card notice">
+                <h2>Educational use only</h2>
+                <p class="small">This app supports education and revision in clinical numeracy. It does not provide
+                    clinical advice and must not be used to calculate, verify or make decisions about real patient care
+                    or medicine administration. Always follow local policy, approved medicines information and
+                    supervision requirements.</p><label
+                    style="display:flex;gap:10px;align-items:flex-start;font-weight:700;margin-top:12px;cursor:pointer"><input
+                        id="understandCheck" type="checkbox"
+                        style="width:22px;min-width:22px;min-height:22px;margin-top:1px">I understand</label>
+            </section>
+            <section class="card workbook-card">
+                <h2>Choose a workbook</h2>
+                <p class="muted">Start with a patient case, choose your mode, and return whenever you have a few
+                    minutes.</p>
+                <div class="button-row"><button id="chooseWorkbookBtn" class="btn" type="button" disabled>Choose
+                        workbook</button></div>
+            </section>
+            <section class="card privacy">
+                <h2>Privacy</h2>
+                <p class="small">This app does not collect, transmit or share personal data. Your progress, answers and
+                    settings are stored only in your browser or device. You can clear them at any time using Reset
+                    progress.</p>
+            </section>
+            <p class="small muted" style="text-align:center;margin:20px 0 0">Created by <strong>Kieran Toner</strong> ·
+                Independent clinical education resource</p>
+        </section>
+        <section id="workbookChoiceScreen" class="screen">
+            <header class="topbar"><button id="backToWelcomeFromWorkbooks" class="icon-button back-btn" type="button">←
+                    Back</button>
+                <div class="title-wrap">
+                    <h1>Choose a workbook</h1>
+                    <p>Select a case-based numeracy activity.</p>
+                </div>
+            </header>
+            <section class="card workbook-card"><span class="pill">Cardiovascular system</span>
+                <h2 style="margin-top:10px">Frank: acute heart failure</h2>
+                <p class="muted">12 numerical questions across assessment, treatment, monitoring and discharge planning.
+                </p>
+                <p id="frankSaved" class="resume-line"></p><button class="btn choose-workbook" data-workbook="frank"
+                    type="button">Choose Frank</button>
+            </section>
+            <section class="card workbook-card respiratory"><span class="pill respiratory">Respiratory system</span>
+                <h2 style="margin-top:10px">Luke: acute asthma</h2>
+                <p class="muted">Eight numerical questions on peak flow, inhaler use, volume, oxygen duration and
+                    response to treatment.</p>
+                <p id="lukeSaved" class="resume-line"></p><button class="btn choose-workbook" data-workbook="luke"
+                    type="button">Choose Luke</button>
+            </section>
+            <section class="card workbook-card renal"><span class="pill renal">Renal system</span>
+                <h2 style="margin-top:10px">Mollie: fluid overload in CKD</h2>
+                <p class="muted">Seven numerical questions on weight, fluid balance, fluid restriction, infusion rates
+                    and urine output.</p>
+                <p id="mollieSaved" class="resume-line"></p><button class="btn choose-workbook" data-workbook="mollie"
+                    type="button">Choose Mollie</button>
+            </section>
+            <section class="card workbook-card blood"><span class="pill blood">Blood and blood vessels</span>
+                <h2 style="margin-top:10px">Bill: acute upper gastrointestinal bleeding</h2>
+                <p class="muted">Eight numerical questions on haemoglobin, NEWS2, red-cell volume and rate calculations,
+                    and urine output.</p>
+                <p id="billSaved" class="resume-line"></p><button class="btn choose-workbook" data-workbook="bill"
+                    type="button">Choose Bill</button>
+            </section>
+            <section class="card workbook-card endocrine"><span class="pill endocrine">Endocrine system</span>
+                <h2 style="margin-top:10px">Thomas: suspected DKA</h2>
+                <p class="muted">Ten numerical questions on glucose, ketones, scores, infusion rates, insulin and
+                    monitoring.</p>
+                <p id="thomasSaved" class="resume-line"></p><button class="btn choose-workbook" data-workbook="thomas"
+                    type="button">Choose Thomas</button>
+            </section>
+            <section class="card workbook-card neuro"><span class="pill neuro">Neurological system</span>
+                <h2 style="margin-top:10px">Robert: prolonged convulsive seizure</h2>
+                <p class="muted">Eight numerical questions on timing, medicine calculations, glucose, GCS and recovery
+                    monitoring.</p>
+                <p id="robertSaved" class="resume-line"></p><button class="btn choose-workbook" data-workbook="robert"
+                    type="button">Choose Robert</button>
+            </section>
+            <section class="card workbook-card mental-health">
+  <span class="pill mental-health">Mental health and wellbeing</span>
+
+  <h2 style="margin-top:10px">Patricia: acute manic episode</h2>
+
+  <p class="muted">
+    Eight numerical questions on sleep, fluid balance, medicines,
+    lithium-sample timing and physical-health monitoring.
+  </p>
+
+  <p id="patriciaSaved" class="resume-line"></p>
+
+  <button
+    class="btn choose-workbook"
+    data-workbook="patricia"
+    type="button"
+  >
+    Choose Patricia
+  </button>
+</section>
+<section class="card workbook-card immune">
+  <span class="pill immune">Immune system and infection</span>
+
+  <h2 style="margin-top:10px">Catherine: suspected urosepsis</h2>
+
+  <p class="muted">
+    Eight numerical questions on observations, scoring, infusion rates,
+    medicine quantities, lactate and supply calculations.
+  </p>
+
+  <p id="catherineSaved" class="resume-line"></p>
+
+  <button
+    class="btn choose-workbook"
+    data-workbook="catherine"
+    type="button"
+  >
+    Choose Catherine
+  </button>
+</section>
+<section class="card workbook-card gastrointestinal">
+  <span class="pill gastrointestinal">Gastrointestinal system</span>
+
+  <h2 style="margin-top:10px">William: ulcerative colitis</h2>
+
+  <p class="muted">
+    Eight numerical questions on BMI, bowel frequency, NEWS2,
+    fluid balance, infusion rates and weight change.
+  </p>
+
+  <p id="williamSaved" class="resume-line"></p>
+
+  <button
+    class="btn choose-workbook"
+    data-workbook="william"
+    type="button"
+  >
+    Choose William
+  </button>
+</section>
+        </section>
+       
+        <section id="modeScreen" class="screen">
+            <header class="topbar"><button id="backToWorkbooks" class="icon-button back-btn" type="button">←
+                    Back</button>
+                <div class="title-wrap">
+                    <h1 data-workbook-title>Workbook</h1>
+                    <p>Choose how you would like to practise</p>
+                </div>
+            </header>
+            <section class="card">
+                <h2>Choose a mode</h2>
+                <p class="muted">The calculator is available in every mode. Challenge removes formula and conversion
+                    prompts so you can test yourself independently.</p>
+                <div class="mode-grid"><button class="mode-card" data-mode="learn"
+                        type="button"><strong>Learn</strong><span>Hints, formula and conversion support, plus immediate
+                            detailed feedback.</span></button><button class="mode-card" data-mode="practice"
+                        type="button"><strong>Practice</strong><span>Immediate feedback with less support. Build
+                            confidence question by question.</span></button><button class="mode-card"
+                        data-mode="challenge" type="button"><strong>Challenge</strong><span>Calculator only. No hints,
+                            formulas or unit prompts. Feedback appears at the end.</span></button></div>
+            </section>
+            <section id="existingSessionCard" class="card" style="display:none"></section>
+        </section>
+        <section id="workbookScreen" class="screen">
+            <header class="topbar"><button id="leaveWorkbook" class="icon-button back-btn" type="button">← Exit</button>
+                <div class="title-wrap">
+                    <h1 data-workbook-title>Workbook</h1>
+                    <p id="modeLabel">Practice mode</p>
+                </div>
+            </header>
+            <section class="card progress-card">
+                <div class="progress-line"><span id="progressText">Question 1</span><span id="progressCount">0
+                        submitted</span></div>
+                <div class="progress-track">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+                <div id="questionDots" class="question-nav" aria-label="Question navigation"></div>
+            </section>
+            <section id="questionCard" class="card question-card"></section>
+            <nav class="bottom-nav">
+                <div class="bottom-nav-inner"><button id="previousBtn" class="btn secondary"
+                        type="button">Previous</button><button id="nextBtn" class="btn" type="button">Next
+                        question</button></div>
+            </nav>
+        </section>
+        <section id="resultsScreen" class="screen">
+            <header class="topbar"><button id="resultsHome" class="icon-button back-btn" type="button">←
+                    Workbooks</button>
+                <div class="title-wrap">
+                    <h1>Workbook results</h1>
+                    <p data-workbook-title>Workbook</p>
+                </div>
+            </header>
+            <section class="card">
+                <h2>Workbook complete</h2>
+                <div class="results-score">
+                    <div id="resultScore" class="number">0 / 0</div>
+                    <p id="resultMessage" class="muted" style="margin:8px 0 0"></p>
+                </div>
+                <h3 style="margin-top:20px">Your questions</h3>
+                <ul id="resultList" class="result-list"></ul>
+                <div id="retryCard" class="card privacy" style="margin-top:16px;display:none">
+                    <h3>Quick retry: 1 question to improve</h3>
+                    <p id="retryText" class="small muted"></p><button id="quickRetryBtn" class="btn" type="button">Quick
+                        retry</button>
+                </div>
+                <div class="button-row two-col"><button id="reviewBtn" class="btn outline" type="button">Review worked
+                        methods</button><button id="repeatBtn" class="btn secondary" type="button">Repeat
+                        workbook</button><button id="resetBtn" class="btn danger" type="button">Reset progress</button>
+                </div>
+            </section>
+        </section>
+    </main>
+    <div id="sheetBackdrop" class="sheet-backdrop"></div>
+    <section id="toolSheet" class="sheet" role="dialog" aria-modal="true">
+        <div class="sheet-handle"></div>
+        <div class="sheet-header">
+            <h2 id="sheetTitle">Calculator</h2><button id="closeSheet" class="close-sheet" type="button">Close</button>
+        </div>
+        <div id="calculatorPanel" class="tool-panel"></div>
+        <div id="formulaPanel" class="tool-panel"></div>
+        <div id="conversionPanel" class="tool-panel"></div>
+        <div id="newsPanel" class="tool-panel"></div>
+        <div id="scorePanel" class="tool-panel"></div>
+    </section>
+    <div id="aboutModal" class="modal" role="dialog" aria-modal="true">
+        <section class="modal-card">
+            <h2>About Clinical Numeracy Learning</h2>
+            <p>Clinical Numeracy Learning is a free, independent educational resource for nursing and healthcare
+                learners. It supports practice with calculations in patient case scenarios.</p>
+            <h3>Educational use</h3>
+            <p>This app supports education and revision in clinical numeracy. It does not provide clinical advice and
+                must not be used to calculate, verify or make decisions about real patient care or medicine
+                administration. Always follow local policy, approved medicines information and supervision requirements.
+            </p>
+            <h3>Privacy</h3>
+            <p>The app does not collect, transmit or share personal data. Progress is stored only in your browser/device
+                using local storage and can be cleared with Reset progress.</p>
+            <h3>NEWS2 reference</h3>
+            <p>NEWS2 content is presented for educational revision. Use current Royal College of Physicians NEWS2
+                resources and your local escalation policy in practice.</p>
+            <p class="small muted">Created by Kieran Toner · Independent clinical education resource</p>
+            <div class="button-row"><button class="btn" data-close-modal type="button">Close</button></div>
+        </section>
+    </div>
+    <div id="resetModal" class="modal" role="dialog" aria-modal="true">
+        <section class="modal-card">
+            <h2>Reset progress?</h2>
+            <p>This clears all saved answers, scores, calculator history and settings for this workbook from this
+                browser/device. This cannot be undone.</p>
+            <div class="button-row two-col"><button id="confirmReset" class="btn danger" type="button">Yes,
+                    reset</button><button class="btn secondary" data-close-modal type="button">Cancel</button></div>
+        </section>
+    </div>
+    <script>
+        (() => {
+            const STORAGE_PREFIX = 'clinicalNumeracyLearningMultiWorkbookV1_9_'; let activeWorkbookId = 'frank'; const emptyState = () => ({mode: 'practice', current: 0, answers: {}, attempts: {}, checked: {}, calculatorHistory: [], quickRetry: null, accepted: false}); let state = emptyState();
+            const workbooks = {
+                frank: {
+                    id: 'frank', title: 'Frank: acute heart failure', questions: [
+                        {id: 'bmi', topic: 'BMI', title: 'Calculate Frank’s BMI', context: 'Frank weighs 86 kg and is 1.72 m tall.', data: ['Weight: 86 kg', 'Height: 1.72 m'], prompt: 'Calculate Frank’s body mass index (BMI). Give your answer to one decimal place.', units: ['kg/m²', 'kg', '%'], expected: 29.0697, tolerance: .04, unit: 'kg/m²', formula: 'BMI = weight (kg) ÷ height² (m²)', hint: 'Square the height first, then divide 86 by that answer.', explanation: '86 ÷ (1.72 × 1.72) = 29.0697…, which rounds to 29.1 kg/m².'},
+                        {id: 'pack', topic: 'Smoking history', title: 'Calculate pack-years', context: 'Frank smoked 20 cigarettes each day for 35 years.', data: ['Cigarettes per day: 20', 'Years smoked: 35'], prompt: 'Calculate Frank’s smoking pack-year history.', units: ['pack-years', 'years', 'cigarettes/day'], expected: 35, tolerance: 0, unit: 'pack-years', formula: 'Pack-years = (cigarettes per day ÷ 20) × years smoked', hint: 'Twenty cigarettes are one pack.', explanation: '(20 ÷ 20) × 35 = 35 pack-years.'},
+                        {id: 'phq', topic: 'Structured score', title: 'Calculate the PHQ-9 total', context: 'Long-term conditions can affect mood and mental health. The following PHQ-9 item scores have been documented for Frank.', data: ['Item scores: 2, 1, 2, 3, 1, 0, 1, 1, 0'], prompt: 'Add the nine item scores and enter the total.', units: ['points', 'score', '%'], expected: 11, tolerance: 0, unit: 'points', formula: 'PHQ-9 total = sum of all nine item scores', hint: 'Add each score once.', explanation: '2 + 1 + 2 + 3 + 1 + 0 + 1 + 1 + 0 = 11 points.', scoreList: ['Little interest or pleasure = 2', 'Feeling down, depressed or hopeless = 1', 'Trouble sleeping = 2', 'Feeling tired or low energy = 3', 'Poor appetite or overeating = 1', 'Feeling bad about yourself = 0', 'Trouble concentrating = 1', 'Moving/speaking slowly or restlessness = 1', 'Thoughts of self-harm = 0']},
+                        {id: 'news', topic: 'NEWS2', title: 'Calculate Frank’s NEWS2 score', context: 'Use the NEWS2 Scale 1 reference in the Tools drawer.', data: ['Respiratory rate: 26 breaths/min', 'SpO₂: 93% on room air', 'Supplemental oxygen: no', 'Temperature: 37.4°C', 'Systolic BP: 156 mmHg', 'Pulse: 98 bpm', 'Consciousness: Alert'], prompt: 'Calculate and enter Frank’s total NEWS2 score.', units: ['points', 'score', 'bpm'], expected: 6, tolerance: 0, unit: 'points', formula: 'NEWS2 total = sum of each parameter score', hint: 'Score each observation separately, then add them.', explanation: 'Respiratory rate 26 = 3; SpO₂ 93% = 2; pulse 98 = 1; all other parameters = 0. Total = 6 points.', showNews: true, scoreList: ['Respiratory rate 26 = 3 points', 'SpO₂ 93% on Scale 1 = 2 points', 'Supplemental oxygen: no = 0 points', 'Systolic BP 156 = 0 points', 'Pulse 98 = 1 point', 'Alert = 0 points', 'Temperature 37.4°C = 0 points']},
+                        {id: 'furoVolume', topic: 'IV medicine volume', title: 'Calculate IV furosemide volume', context: 'Furosemide 40 mg IV is prescribed.', data: ['Prescribed: furosemide 40 mg IV', 'Available: furosemide 50 mg in 5 mL'], prompt: 'Calculate the volume to administer.', units: ['mL', 'mg', 'mL/min'], expected: 4, tolerance: .05, unit: 'mL', formula: 'Volume (mL) = (dose prescribed ÷ dose available) × volume available', hint: 'Work out how many mg are in each mL.', explanation: '(40 mg ÷ 50 mg) × 5 mL = 4 mL.'},
+                        {id: 'furoRate', topic: 'IV administration rate', title: 'Calculate the administration rate', context: '4 mL of furosemide is to be administered over 10 minutes.', data: ['Total volume: 4 mL', 'Administration time: 10 minutes'], prompt: 'Calculate the administration rate in mL/min.', units: ['mL/min', 'mg/min', 'mL/hour'], expected: .4, tolerance: .05, unit: 'mL/min', formula: 'Rate (mL/min) = total volume (mL) ÷ time (min)', hint: 'Divide volume by time in minutes.', explanation: '4 mL ÷ 10 min = 0.4 mL/min.'},
+                        {id: 'furoDoseRate', topic: 'Dose rate', title: 'Calculate the dose delivered per minute', context: 'The furosemide dose is 40 mg and is administered over 10 minutes.', data: ['Total dose: 40 mg', 'Administration time: 10 minutes'], prompt: 'Calculate the dose-delivery rate in mg/min.', units: ['mg/min', 'mL/min', 'mg'], expected: 4, tolerance: .05, unit: 'mg/min', formula: 'Dose rate (mg/min) = total dose (mg) ÷ time (min)', hint: 'Divide the total dose by the time.', explanation: '40 mg ÷ 10 min = 4 mg/min.'},
+                        {id: 'urine', topic: 'Urine output', title: 'Calculate urine output', context: 'Twenty-four hours after treatment, Frank’s urine output is totalled.', data: ['Weight: 86 kg', 'Total urine output: 2,600 mL over 24 hours'], prompt: 'Calculate the urine output in mL/kg/hour. Give your answer to two decimal places.', units: ['mL/kg/hour', 'mL/hour', 'mL/kg'], expected: 1.26, tolerance: .02, unit: 'mL/kg/hour', formula: 'Urine output = total urine output ÷ weight ÷ hours', hint: 'Divide by weight and then by 24 hours.', explanation: '2,600 ÷ 86 ÷ 24 = 1.259… = 1.26 mL/kg/hour.'},
+                        {id: 'fluid', topic: 'Fluid balance', title: 'Calculate fluid balance', context: 'Frank’s intake and output have been totalled over 24 hours.', data: ['Total intake: 1,600 mL', 'Total output: 2,600 mL'], prompt: 'Calculate Frank’s fluid balance.', units: ['mL', 'L', 'mL/hour'], expected: -1000, tolerance: 0, unit: 'mL', formula: 'Fluid balance = total intake − total output', hint: 'Include a minus sign if output is greater than intake.', explanation: '1,600 mL − 2,600 mL = −1,000 mL.'},
+                        {id: 'weightLoss', topic: 'Weight change', title: 'Calculate total weight loss', context: 'Daily weight monitoring is recorded during Frank’s admission.', data: ['Admission weight: 86 kg', 'Discharge weight: 82 kg'], prompt: 'Calculate Frank’s total weight loss.', units: ['kg', '%', 'mL'], expected: 4, tolerance: .05, unit: 'kg', formula: 'Weight loss = admission weight − discharge weight', hint: 'Subtract discharge weight from admission weight.', explanation: '86 kg − 82 kg = 4 kg.'},
+                        {id: 'weightPercent', topic: 'Percentage change', title: 'Calculate percentage weight loss', context: 'Use Frank’s admission and discharge weights.', data: ['Admission weight: 86 kg', 'Discharge weight: 82 kg', 'Weight loss: 4 kg'], prompt: 'Calculate the percentage weight loss. Give your answer to one decimal place.', units: ['%', 'kg', 'kg/m²'], expected: 4.651, tolerance: .06, unit: '%', formula: 'Percentage weight loss = (weight loss ÷ original weight) × 100', hint: 'Use the admission weight as the original weight.', explanation: '(4 ÷ 86) × 100 = 4.651…%. Rounded to one decimal place, this is 4.7%. The app accepts 4.6% or 4.7%.'},
+                        {id: 'tablets', topic: 'Discharge supply', title: 'Calculate tablets for discharge', context: 'Furosemide 40 mg twice daily is prescribed for 28 days.', data: ['Available: furosemide 40 mg tablets', 'Frequency: twice daily', 'Supply duration: 28 days'], prompt: 'How many tablets are required for a 28-day supply?', units: ['tablets', 'mg', 'days'], expected: 56, tolerance: 0, unit: 'tablets', formula: 'Tablets = tablets per dose × doses per day × days', hint: 'One 40 mg tablet is needed per dose.', explanation: '1 tablet × 2 doses/day × 28 days = 56 tablets.'}]
+                },
+                luke: {
+                    id: 'luke', title: 'Luke: acute asthma', questions: [
+                        {id: 'pefDifference', topic: 'Peak flow', title: 'Calculate peak flow below personal best', context: 'Luke’s personal-best peak expiratory flow is 480 L/min. His admission peak flow is 210 L/min.', data: ['Personal best: 480 L/min', 'Admission peak flow: 210 L/min'], prompt: 'Calculate how many L/min below personal best Luke is on admission.', units: ['L/min', '%', 'mL/min'], expected: 270, tolerance: 0, unit: 'L/min', formula: 'Difference = personal-best peak flow − current peak flow', hint: 'Subtract admission peak flow from personal best.', explanation: '480 L/min − 210 L/min = 270 L/min.'},
+                        {id: 'pefAdmissionPercent', topic: 'Peak flow', title: 'Calculate admission peak flow percentage', context: 'Luke’s personal-best peak flow is 480 L/min. Admission peak flow is 210 L/min.', data: ['Personal best: 480 L/min', 'Admission peak flow: 210 L/min'], prompt: 'Calculate admission peak flow as a percentage of personal best. Give your answer to one decimal place.', units: ['%', 'L/min', 'mL'], expected: 43.75, tolerance: .06, unit: '%', formula: 'Percentage = (current peak flow ÷ personal best) × 100', hint: 'Divide 210 by 480, then multiply by 100.', explanation: '(210 ÷ 480) × 100 = 43.75%. Rounded to one decimal place this is 43.8%. The app accepts 43.75% or 43.8%.'},
+                        {id: 'relieverPuffs', topic: 'Inhaler use', title: 'Calculate total reliever inhaler use', context: 'Luke took two puffs of his reliever inhaler on six occasions in 24 hours.', data: ['Puffs on each occasion: 2', 'Number of occasions: 6'], prompt: 'Calculate total reliever inhaler puffs used during the previous 24 hours.', units: ['puffs', 'doses', 'mg'], expected: 12, tolerance: 0, unit: 'puffs', formula: 'Total puffs = puffs per occasion × occasions', hint: 'Multiply puffs each time by occasions.', explanation: '2 puffs × 6 occasions = 12 puffs.'},
+                        {id: 'nebuliserVolume', topic: 'Volume calculation', title: 'Calculate nebuliser volume', context: 'Two pre-measured liquids are provided for a nebuliser chamber.', data: ['Solution A: 2.5 mL', 'Solution B: 2.5 mL'], prompt: 'Calculate the total volume in the nebuliser chamber.', units: ['mL', 'mg', 'L'], expected: 5, tolerance: .05, unit: 'mL', formula: 'Total volume = volume A + volume B', hint: 'Add the two volumes.', explanation: '2.5 mL + 2.5 mL = 5 mL.'},
+                        {id: 'cylinderMinutes', topic: 'Oxygen duration', title: 'Calculate cylinder duration', context: 'An oxygen cylinder contains 680 L and the prescribed flow rate is 4 L/min.', data: ['Available oxygen: 680 L', 'Flow rate: 4 L/min'], prompt: 'Calculate the estimated duration in minutes.', units: ['minutes', 'hours', 'L/min'], expected: 170, tolerance: 0, unit: 'minutes', formula: 'Duration = available oxygen ÷ flow rate', hint: 'Divide litres by litres per minute.', explanation: '680 L ÷ 4 L/min = 170 minutes.'},
+                        {id: 'cylinderHours', topic: 'Time conversion', title: 'Convert cylinder duration to hours', context: 'The calculated cylinder duration is 170 minutes.', data: ['Duration: 170 minutes', '1 hour: 60 minutes'], prompt: 'Convert 170 minutes into decimal hours. Give your answer to two decimal places.', units: ['hours', 'minutes', 'L/hour'], expected: 2.8333, tolerance: .01, unit: 'hours', formula: 'Hours = minutes ÷ 60', hint: 'Divide minutes by 60.', explanation: '170 ÷ 60 = 2.8333… hours, rounded to 2.83 hours.'},
+                        {id: 'pefImprovement', topic: 'Peak-flow response', title: 'Calculate peak-flow improvement', context: 'Luke’s peak flow rises from 210 L/min to 320 L/min.', data: ['Admission peak flow: 210 L/min', 'Post-treatment peak flow: 320 L/min'], prompt: 'Calculate the increase in peak flow.', units: ['L/min', '%', 'mL/min'], expected: 110, tolerance: 0, unit: 'L/min', formula: 'Increase = post-treatment peak flow − admission peak flow', hint: 'Subtract the admission value.', explanation: '320 L/min − 210 L/min = 110 L/min.'},
+                        {id: 'pefPostTreatmentPercent', topic: 'Peak-flow response', title: 'Calculate post-treatment peak flow percentage', context: 'Luke’s post-treatment peak flow is 320 L/min. Personal best remains 480 L/min.', data: ['Personal best: 480 L/min', 'Post-treatment peak flow: 320 L/min'], prompt: 'Calculate post-treatment peak flow as a percentage of personal best. Give your answer to one decimal place.', units: ['%', 'L/min', 'mL'], expected: 66.6667, tolerance: .06, unit: '%', formula: 'Percentage = (current peak flow ÷ personal best) × 100', hint: 'Divide 320 by 480, then multiply by 100.', explanation: '(320 ÷ 480) × 100 = 66.6667%. Rounded to one decimal place this is 66.7%. The app accepts 66.67% or 66.7%.'}]
+                },
+                mollie: {
+                    id: 'mollie', title: 'Mollie: fluid overload in CKD', questions: [
+                        {id: 'weightAboveDry', topic: 'Weight and fluid status', title: 'Calculate weight above dry weight', context: 'Mollie’s admission weight is 82.4 kg and documented dry weight is 78.6 kg.', data: ['Documented dry weight: 78.6 kg', 'Admission weight: 82.4 kg'], prompt: 'Calculate Mollie’s weight above documented dry weight. Give your answer to one decimal place.', units: ['kg', '%', 'mL'], expected: 3.8, tolerance: .05, unit: 'kg', formula: 'Weight above dry weight = admission weight − dry weight', hint: 'Subtract dry weight from admission weight.', explanation: '82.4 kg − 78.6 kg = 3.8 kg.'},
+                        {id: 'fluidBalance', topic: 'Fluid balance', title: 'Calculate 24-hour fluid balance', context: 'Review Mollie’s recorded intake and output over the previous 24 hours.', data: ['Three cups of tea: 200 mL each', 'Two glasses of water: 250 mL each', 'One bowl of soup: 300 mL', 'Urine output: 350 mL', 'One episode of diarrhoea: 180 mL'], prompt: 'Calculate net fluid balance. The result is positive; enter the numerical value and select the unit.', units: ['mL', 'L', 'mL/hour'], expected: 870, tolerance: 0, unit: 'mL', formula: 'Fluid balance = total intake − total output', hint: 'Calculate intake first, then subtract output.', explanation: 'Intake = 1,400 mL. Output = 530 mL. Net balance = +870 mL.'},
+                        {id: 'fluidAllowance', topic: 'Fluid restriction', title: 'Calculate remaining fluid allowance', context: 'Mollie has a 24-hour fluid allowance of 1,000 mL. By 14:00, 620 mL has been consumed.', data: ['24-hour allowance: 1,000 mL', 'Already consumed: 620 mL'], prompt: 'Calculate how much fluid remains in the 24-hour allowance.', units: ['mL', 'L', 'mL/hour'], expected: 380, tolerance: 0, unit: 'mL', formula: 'Remaining allowance = total allowance − consumed amount', hint: 'Subtract consumed fluid from the allowance.', explanation: '1,000 mL − 620 mL = 380 mL remaining.'},
+                        {id: 'infusionRate', topic: 'IV infusion rate', title: 'Calculate IV infusion rate', context: 'A prescribed IV infusion contains 250 mL and is to run over two hours.', data: ['Total volume: 250 mL', 'Prescribed time: 2 hours'], prompt: 'Calculate the pump rate in mL/hour.', units: ['mL/hour', 'mL/min', 'L/hour'], expected: 125, tolerance: 0, unit: 'mL/hour', formula: 'Rate = total volume ÷ time', hint: 'Divide volume by time in hours.', explanation: '250 mL ÷ 2 hours = 125 mL/hour.'},
+                        {id: 'urinePerHour', topic: 'Urine output', title: 'Calculate average urine output', context: 'Six hours after treatment begins, Mollie has passed 180 mL of urine.', data: ['Urine output: 180 mL', 'Time period: 6 hours'], prompt: 'Calculate average urine output per hour.', units: ['mL/hour', 'mL/kg/hour', 'mL'], expected: 30, tolerance: 0, unit: 'mL/hour', formula: 'Average output = total urine output ÷ time', hint: 'Divide volume by hours.', explanation: '180 mL ÷ 6 hours = 30 mL/hour.'},
+                        {id: 'weightReduction', topic: 'Weight response', title: 'Calculate weight reduction', context: 'Mollie’s admission weight is 82.4 kg and follow-up weight is 80.9 kg.', data: ['Admission weight: 82.4 kg', 'Follow-up weight: 80.9 kg'], prompt: 'Calculate weight reduction. Give your answer to one decimal place.', units: ['kg', '%', 'mL'], expected: 1.5, tolerance: .05, unit: 'kg', formula: 'Weight reduction = admission weight − follow-up weight', hint: 'Subtract follow-up weight.', explanation: '82.4 kg − 80.9 kg = 1.5 kg.'},
+                        {id: 'weightReductionPercent', topic: 'Percentage change', title: 'Calculate percentage weight reduction', context: 'Use Mollie’s admission and follow-up weights.', data: ['Admission weight: 82.4 kg', 'Follow-up weight: 80.9 kg', 'Weight reduction: 1.5 kg'], prompt: 'Calculate percentage weight reduction from admission weight. Give your answer to one decimal place.', units: ['%', 'kg', 'kg/m²'], expected: 1.8204, tolerance: .03, unit: '%', formula: 'Percentage reduction = (weight reduction ÷ admission weight) × 100', hint: 'Divide reduction by admission weight.', explanation: '(1.5 ÷ 82.4) × 100 = 1.820…%. Rounded to one decimal place this is 1.8%. The app accepts 1.8% or 1.82%.'}]
+                },
+                bill: {
+                    id: 'bill', title: 'Bill: acute upper gastrointestinal bleeding', questions: [
+                        {id: 'billBmi', topic: 'BMI', title: 'Calculate Bill’s BMI', context: 'Bill weighs 82 kg and is 1.75 m tall.', data: ['Weight: 82 kg', 'Height: 1.75 m'], prompt: 'Calculate Bill’s BMI. Give your answer to one decimal place.', units: ['kg/m²', 'kg', '%'], expected: 26.7755, tolerance: .04, unit: 'kg/m²', formula: 'BMI = weight ÷ height²', hint: 'Square height first.', explanation: '82 ÷ (1.75 × 1.75) = 26.7755…, rounded to 26.8 kg/m².'},
+                        {id: 'haemoglobinDifference', topic: 'Haemoglobin', title: 'Calculate difference below reference limit', context: 'Bill’s admission haemoglobin is 72 g/L. The stated lower reference limit is 130 g/L.', data: ['Admission haemoglobin: 72 g/L', 'Stated lower reference limit: 130 g/L'], prompt: 'Calculate how many g/L below the stated lower reference limit Bill’s haemoglobin is.', units: ['g/L', 'mg/L', 'mmol/L'], expected: 58, tolerance: 0, unit: 'g/L', formula: 'Difference = lower reference limit − measured haemoglobin', hint: 'Subtract the result from the reference limit.', explanation: '130 g/L − 72 g/L = 58 g/L.'},
+                        {id: 'billNews', topic: 'NEWS2', title: 'Calculate Bill’s NEWS2 score', context: 'Use the NEWS2 Scale 1 reference in the Tools drawer.', data: ['Respiratory rate: 24 breaths/min', 'SpO₂: 96% on room air', 'Supplemental oxygen: no', 'Temperature: 36.8°C', 'Systolic BP: 90 mmHg', 'Pulse: 118 bpm', 'Consciousness: Alert'], prompt: 'Calculate and enter Bill’s NEWS2 score.', units: ['points', 'score', 'bpm'], expected: 7, tolerance: 0, unit: 'points', formula: 'NEWS2 total = sum of each parameter score', hint: 'Score each observation, then add.', explanation: 'Respiratory rate 24 = 2; systolic BP 90 = 3; pulse 118 = 2; all other parameters = 0. Total = 7 points.', showNews: true, scoreList: ['Respiratory rate 24 = 2 points', 'SpO₂ 96% = 0 points', 'Supplemental oxygen: no = 0 points', 'Temperature 36.8°C = 0 points', 'Systolic BP 90 = 3 points', 'Pulse 118 = 2 points', 'Alert = 0 points']},
+                        {id: 'redCellVolume', topic: 'Red-cell volume', title: 'Calculate total red-cell volume', context: 'Bill is prescribed two red-cell units. Each unit contains 280 mL.', data: ['Number of units: 2', 'Volume per unit: 280 mL'], prompt: 'Calculate total volume across both units.', units: ['mL', 'L', 'mL/hour'], expected: 560, tolerance: 0, unit: 'mL', formula: 'Total volume = number of units × volume per unit', hint: 'Multiply units by volume.', explanation: '2 × 280 mL = 560 mL.'},
+                        {id: 'redCellRate', topic: 'Red-cell rate', title: 'Calculate rate for one red-cell unit', context: 'Each red-cell unit contains 280 mL and is administered one unit at a time over two hours.', data: ['One unit volume: 280 mL', 'Time for one unit: 2 hours', 'Units administered sequentially'], prompt: 'Calculate the infusion rate for one unit in mL/hour.', units: ['mL/hour', 'mL/min', 'L/hour'], expected: 140, tolerance: 0, unit: 'mL/hour', formula: 'Rate = volume of one unit ÷ time', hint: 'Divide volume by hours.', explanation: '280 mL ÷ 2 hours = 140 mL/hour.'},
+                        {id: 'billUrine', topic: 'Urine output', title: 'Calculate urine output', context: 'Bill’s urine output is recorded over 24 hours.', data: ['Weight: 82 kg', 'Total urine output: 1,800 mL', 'Duration: 24 hours'], prompt: 'Calculate urine output in mL/kg/hour. Give your answer to two decimal places.', units: ['mL/kg/hour', 'mL/hour', 'mL/kg'], expected: .9146, tolerance: .01, unit: 'mL/kg/hour', formula: 'Urine output = total output ÷ weight ÷ time', hint: 'Divide by weight and then by hours.', explanation: '1,800 ÷ 82 ÷ 24 = 0.9146… = 0.91 mL/kg/hour.'},
+                        {id: 'haemoglobinIncrease', topic: 'Haemoglobin response', title: 'Calculate haemoglobin increase', context: 'Bill’s repeat haemoglobin is 92 g/L after treatment.', data: ['Admission haemoglobin: 72 g/L', 'Repeat haemoglobin: 92 g/L'], prompt: 'Calculate the increase in haemoglobin.', units: ['g/L', 'mg/L', '%'], expected: 20, tolerance: 0, unit: 'g/L', formula: 'Increase = repeat − admission', hint: 'Subtract admission value.', explanation: '92 g/L − 72 g/L = 20 g/L.'},
+                        {id: 'haemoglobinPercent', topic: 'Percentage change', title: 'Calculate percentage haemoglobin increase', context: 'Use Bill’s admission and repeat haemoglobin values.', data: ['Admission haemoglobin: 72 g/L', 'Repeat haemoglobin: 92 g/L', 'Haemoglobin increase: 20 g/L'], prompt: 'Calculate percentage increase in haemoglobin. Give your answer to one decimal place.', units: ['%', 'g/L', 'mmol/L'], expected: 27.7778, tolerance: .06, unit: '%', formula: 'Percentage increase = (increase ÷ original value) × 100', hint: 'Divide the increase by admission haemoglobin.', explanation: '(20 ÷ 72) × 100 = 27.777…%. Rounded to one decimal place this is 27.8%. The app accepts 27.78% or 27.8%.'}]
+                },
+                thomas: {
+                    id: 'thomas', title: 'Thomas: suspected DKA', questions: [
+                        {id: 'thomasBmi', topic: 'BMI', title: 'Calculate Thomas’s BMI', context: 'Thomas weighs 72 kg and is 1.80 m tall.', data: ['Weight: 72 kg', 'Height: 1.80 m'], prompt: 'Calculate Thomas’s BMI. Give your answer to one decimal place.', units: ['kg/m²', 'kg', '%'], expected: 22.2222, tolerance: .04, unit: 'kg/m²', formula: 'BMI = weight (kg) ÷ height² (m²)', hint: 'Square the height first.', explanation: '72 ÷ (1.80 × 1.80) = 22.222…, which rounds to 22.2 kg/m².'},
+                        {id: 'glucoseAboveTarget', topic: 'Blood glucose', title: 'Calculate glucose above stated target', context: 'Thomas’s capillary blood glucose is 28 mmol/L. The stated upper target limit for this exercise is 7 mmol/L.', data: ['Current blood glucose: 28 mmol/L', 'Stated upper target: 7 mmol/L'], prompt: 'Calculate how many mmol/L above the stated upper target Thomas’s blood glucose is.', units: ['mmol/L', 'mg/dL', 'units/hour'], expected: 21, tolerance: 0, unit: 'mmol/L', formula: 'Difference = current value − upper target', hint: 'Subtract 7 from 28.', explanation: '28 mmol/L − 7 mmol/L = 21 mmol/L.'},
+                        {id: 'ketoneReduction', topic: 'Ketones', title: 'Calculate ketone reduction', context: 'Thomas’s ketones are measured at admission and after treatment.', data: ['Admission ketones: 6.3 mmol/L', 'Current ketones: 1.8 mmol/L'], prompt: 'Calculate the reduction in ketones.', units: ['mmol/L', 'mg/dL', '%'], expected: 4.5, tolerance: .05, unit: 'mmol/L', formula: 'Reduction = admission ketones − current ketones', hint: 'Subtract current ketones from admission ketones.', explanation: '6.3 mmol/L − 1.8 mmol/L = 4.5 mmol/L.'},
+                        {id: 'thomasPhq', topic: 'Structured score', title: 'Calculate the PHQ-9 total', context: 'The following PHQ-9 item scores have been documented for Thomas.', data: ['Item scores: 2, 1, 2, 3, 1, 0, 1, 1, 0'], prompt: 'Add the nine item scores and enter the total.', units: ['points', 'score', '%'], expected: 11, tolerance: 0, unit: 'points', formula: 'PHQ-9 total = sum of all nine item scores', hint: 'Add each score once.', explanation: '2 + 1 + 2 + 3 + 1 + 0 + 1 + 1 + 0 = 11 points.', scoreList: ['Little interest or pleasure = 2', 'Feeling down, depressed or hopeless = 1', 'Trouble sleeping = 2', 'Feeling tired or low energy = 3', 'Poor appetite or overeating = 1', 'Feeling bad about yourself = 0', 'Trouble concentrating = 1', 'Moving/speaking slowly or restlessness = 1', 'Thoughts of self-harm = 0']},
+                        {id: 'thomasNews', topic: 'NEWS2', title: 'Calculate Thomas’s NEWS2 score', context: 'Use the NEWS2 Scale 1 reference in the Tools drawer.', data: ['Respiratory rate: 28 breaths/min', 'SpO₂: 97% on room air', 'Supplemental oxygen: no', 'Temperature: 37.8°C', 'Systolic BP: 100 mmHg', 'Pulse: 122 bpm', 'Consciousness: Alert'], prompt: 'Calculate and enter Thomas’s NEWS2 score.', units: ['points', 'score', 'bpm'], expected: 7, tolerance: 0, unit: 'points', formula: 'NEWS2 total = sum of each parameter score', hint: 'Score each observation separately, then add.', explanation: 'Respiratory rate 28 = 3; systolic BP 100 = 2; pulse 122 = 2; all other parameters = 0. Total = 7 points.', showNews: true, scoreList: ['Respiratory rate 28 = 3 points', 'SpO₂ 97% = 0 points', 'Supplemental oxygen: no = 0 points', 'Temperature 37.8°C = 0 points', 'Systolic BP 100 = 2 points', 'Pulse 122 = 2 points', 'Alert = 0 points']},
+                        {id: 'dkaFluidRate', topic: 'IV infusion rate', title: 'Calculate IV fluid rate', context: 'A prescribed IV infusion contains 1,000 mL and is to run over one hour.', data: ['Total volume: 1,000 mL', 'Prescribed time: 1 hour'], prompt: 'Calculate the infusion rate in mL/hour.', units: ['mL/hour', 'mL/min', 'L/hour'], expected: 1000, tolerance: 0, unit: 'mL/hour', formula: 'Rate = total volume ÷ time', hint: 'Divide volume by hours.', explanation: '1,000 mL ÷ 1 hour = 1,000 mL/hour.'},
+                        {id: 'insulinRequirement', topic: 'Weight-based insulin', title: 'Calculate insulin requirement', context: 'The stated insulin rate is 0.1 units/kg/hour. Thomas weighs 72 kg.', data: ['Stated rate: 0.1 units/kg/hour', 'Weight: 72 kg'], prompt: 'Calculate the insulin requirement in units/hour.', units: ['units/hour', 'mL/hour', 'units/day'], expected: 7.2, tolerance: .05, unit: 'units/hour', formula: 'Insulin requirement = stated rate × weight', hint: 'Multiply 0.1 by 72.', explanation: '0.1 units/kg/hour × 72 kg = 7.2 units/hour.'},
+                        {id: 'glucoseReduction', topic: 'Blood glucose response', title: 'Calculate blood glucose reduction', context: 'Thomas’s blood glucose falls after treatment.', data: ['Admission blood glucose: 28 mmol/L', 'Post-treatment blood glucose: 11 mmol/L'], prompt: 'Calculate the reduction in blood glucose.', units: ['mmol/L', 'mg/dL', '%'], expected: 17, tolerance: 0, unit: 'mmol/L', formula: 'Reduction = admission glucose − post-treatment glucose', hint: 'Subtract the post-treatment value.', explanation: '28 mmol/L − 11 mmol/L = 17 mmol/L.'},
+                        {id: 'dailyInsulin', topic: 'Insulin supply', title: 'Calculate daily insulin requirement', context: 'Insulin Aspart 8 units three times daily is prescribed.', data: ['Dose: 8 units', 'Frequency: three times daily'], prompt: 'Calculate total insulin required per day.', units: ['units/day', 'units/hour', 'mL/day'], expected: 24, tolerance: 0, unit: 'units/day', formula: 'Daily units = units per dose × doses per day', hint: 'Multiply 8 by 3.', explanation: '8 units × 3 doses/day = 24 units/day.'},
+                        {id: 'averageGlucose', topic: 'Average', title: 'Calculate average blood glucose', context: 'Six blood glucose readings are recorded after recovery.', data: ['Readings: 6, 5, 7, 8, 6, 5 mmol/L'], prompt: 'Calculate the average blood glucose. Give your answer to one decimal place.', units: ['mmol/L', 'mg/dL', '%'], expected: 6.1667, tolerance: .06, unit: 'mmol/L', formula: 'Mean = sum of readings ÷ number of readings', hint: 'Add all six readings, then divide by six.', explanation: '(6 + 5 + 7 + 8 + 6 + 5) ÷ 6 = 37 ÷ 6 = 6.166… mmol/L, rounded to 6.2 mmol/L.'}]
+                },
+                robert: {
+                    id: 'robert', title: 'Robert: prolonged convulsive seizure', questions: [
+                        {id: 'seizureDuration', topic: 'Time calculation', title: 'Calculate seizure duration', context: 'Robert’s seizure began at 10:12. Emergency assessment begins at 10:17.', data: ['Seizure start: 10:12', 'Emergency assessment: 10:17'], prompt: 'Calculate the duration of the seizure.', units: ['minutes', 'seconds', 'hours'], expected: 5, tolerance: 0, unit: 'minutes', formula: 'Duration = end time − start time', hint: 'Count the minutes between 10:12 and 10:17.', explanation: '10:17 − 10:12 = 5 minutes.'},
+                        {id: 'weightDose', topic: 'Weight-based dose', title: 'Calculate prescribed medicine dose', context: 'A prescribed medicine dose is 0.1 mg/kg. Robert weighs 74 kg.', data: ['Prescribed rate: 0.1 mg/kg', 'Weight: 74 kg'], prompt: 'Calculate the prescribed dose.', units: ['mg', 'mL', 'mg/hour'], expected: 7.4, tolerance: .05, unit: 'mg', formula: 'Dose = prescribed rate × weight', hint: 'Multiply 0.1 by 74.', explanation: '0.1 mg/kg × 74 kg = 7.4 mg.'},
+                        {id: 'glucoseDifference', topic: 'Blood glucose', title: 'Calculate difference below stated minimum', context: 'Robert’s capillary blood glucose is 3.2 mmol/L. The stated minimum for this exercise is 4.0 mmol/L.', data: ['Measured glucose: 3.2 mmol/L', 'Stated minimum: 4.0 mmol/L'], prompt: 'Calculate how far below 4.0 mmol/L Robert’s blood glucose is.', units: ['mmol/L', 'mg/dL', '%'], expected: .8, tolerance: .05, unit: 'mmol/L', formula: 'Difference = stated minimum − measured glucose', hint: 'Subtract 3.2 from 4.0.', explanation: '4.0 mmol/L − 3.2 mmol/L = 0.8 mmol/L.'},
+                        {id: 'medicineVolume', topic: 'Medicine volume', title: 'Calculate medicine volume', context: 'A prescribed dose is 10 mg. Available concentration is 5 mg/mL.', data: ['Prescribed dose: 10 mg', 'Available concentration: 5 mg/mL'], prompt: 'Calculate the volume required.', units: ['mL', 'mg', 'mL/hour'], expected: 2, tolerance: .05, unit: 'mL', formula: 'Volume = dose ÷ concentration', hint: 'Divide the prescribed dose by the concentration.', explanation: '10 mg ÷ 5 mg/mL = 2 mL.'},
+                        {id: 'infusionRate', topic: 'IV infusion rate', title: 'Calculate infusion pump rate', context: 'A prescribed infusion has a total volume of 100 mL and is to run over 15 minutes.', data: ['Total volume: 100 mL', 'Prescribed time: 15 minutes'], prompt: 'Calculate the pump rate in mL/hour.', units: ['mL/hour', 'mL/min', 'L/hour'], expected: 400, tolerance: 0, unit: 'mL/hour', formula: 'Rate = volume ÷ time in hours', hint: 'Convert 15 minutes to 0.25 hours first.', explanation: '15 minutes = 0.25 hours. 100 mL ÷ 0.25 hours = 400 mL/hour.'},
+                        {id: 'gcs', topic: 'Glasgow Coma Scale', title: 'Calculate Glasgow Coma Scale total', context: 'Thirty minutes after the seizure stops, Robert opens eyes to speech, is confused in conversation and obeys commands.', data: ['Eye opening to speech = 3', 'Confused verbal response = 4', 'Obeys commands = 6'], prompt: 'Calculate Robert’s Glasgow Coma Scale total.', units: ['points', 'score', 'bpm'], expected: 13, tolerance: 0, unit: 'points', formula: 'GCS total = eye + verbal + motor', hint: 'Add the three component scores.', explanation: 'E3 + V4 + M6 = 13 points.', scoreList: ['Eye opening to speech = 3 points', 'Confused verbal response = 4 points', 'Obeys commands = 6 points']},
+                        {id: 'oxygenIncrease', topic: 'Post-ictal monitoring', title: 'Calculate oxygen saturation increase', context: 'Robert’s oxygen saturation improves during post-ictal monitoring.', data: ['Initial oxygen saturation: 90%', 'Follow-up oxygen saturation: 96%'], prompt: 'Calculate the increase in oxygen saturation.', units: ['percentage points', '%', 'mmol/L'], expected: 6, tolerance: 0, unit: 'percentage points', formula: 'Increase = follow-up value − initial value', hint: 'Subtract 90 from 96.', explanation: '96 − 90 = 6 percentage points.'},
+                        {id: 'glucoseIncrease', topic: 'Post-ictal monitoring', title: 'Calculate blood glucose increase', context: 'Robert’s blood glucose is reassessed after treatment.', data: ['Initial glucose: 3.2 mmol/L', 'Follow-up glucose: 5.6 mmol/L'], prompt: 'Calculate the increase in capillary blood glucose.', units: ['mmol/L', 'mg/dL', '%'], expected: 2.4, tolerance: .05, unit: 'mmol/L', formula: 'Increase = follow-up glucose − initial glucose', hint: 'Subtract 3.2 from 5.6.', explanation: '5.6 mmol/L − 3.2 mmol/L = 2.4 mmol/L.'}]
+                },
+                patricia: {
+  id: 'patricia',
+  title: 'Patricia: acute manic episode',
+  questions: [
+    {
+      id: 'sleepTotal',
+      topic: 'Sleep assessment',
+      title: 'Calculate total sleep',
+      context: 'Patricia reports reduced sleep during the three nights before admission.',
+      data: [
+        'Night 1: 2 hours',
+        'Night 2: 3 hours',
+        'Night 3: 1.5 hours'
+      ],
+      prompt: 'Calculate Patricia’s total sleep across the three nights.',
+      units: ['hours', 'minutes', 'days'],
+      expected: 6.5,
+      tolerance: 0.05,
+      unit: 'hours',
+      formula: 'Total sleep = Night 1 + Night 2 + Night 3',
+      hint: 'Add 2, 3 and 1.5.',
+      explanation: '2 + 3 + 1.5 = 6.5 hours.'
+    },
+    {
+      id: 'sleepDeficit',
+      topic: 'Sleep assessment',
+      title: 'Calculate sleep deficit',
+      context: 'Use 8 hours per night as the reference amount for this activity.',
+      data: [
+        'Reference sleep: 8 hours each night',
+        'Number of nights: 3',
+        'Patricia’s total sleep: 6.5 hours'
+      ],
+      prompt: 'Calculate Patricia’s total sleep deficit across the three nights.',
+      units: ['hours', 'minutes', 'days'],
+      expected: 17.5,
+      tolerance: 0.05,
+      unit: 'hours',
+      formula: 'Sleep deficit = reference sleep − actual sleep',
+      hint: 'First calculate the reference sleep for three nights: 3 × 8.',
+      explanation: '3 × 8 = 24 hours. 24 − 6.5 = 17.5 hours.'
+    },
+    {
+      id: 'fluidBalanceMentalHealth',
+      topic: 'Fluid balance',
+      title: 'Calculate fluid balance',
+      context: 'During a 12-hour shift, Patricia’s fluid intake and output are recorded.',
+      data: [
+        'Water: 3 × 250 mL',
+        'Tea: 2 × 200 mL',
+        'Soup: 300 mL',
+        'Urine output: 900 mL'
+      ],
+      prompt: 'Calculate Patricia’s net fluid balance. The result is a positive balance; enter the numerical value and select the correct unit.',
+      units: ['mL', 'L', 'mL/hour'],
+      expected: 550,
+      tolerance: 0,
+      unit: 'mL',
+      formula: 'Fluid balance = total intake − total output',
+      hint: 'Add all oral intake first, then subtract 900 mL.',
+      explanation: 'Intake: (3 × 250) + (2 × 200) + 300 = 1,450 mL. 1,450 − 900 = +550 mL.'
+    },
+    {
+      id: 'olanzapineTablets',
+      topic: 'Oral medication',
+      title: 'Calculate tablets for one dose',
+      context: 'Olanzapine 10 mg at night is prescribed. Olanzapine 5 mg tablets are available.',
+      data: [
+        'Prescribed dose: 10 mg',
+        'Available strength: 5 mg per tablet'
+      ],
+      prompt: 'Calculate how many tablets are required for one prescribed dose.',
+      units: ['tablets', 'mg', 'mL'],
+      expected: 2,
+      tolerance: 0,
+      unit: 'tablets',
+      formula: 'Tablets required = prescribed dose ÷ tablet strength',
+      hint: 'Divide 10 mg by 5 mg per tablet.',
+      explanation: '10 mg ÷ 5 mg/tablet = 2 tablets.'
+    },
+    {
+      id: 'olanzapineSupply',
+      topic: 'Oral medication',
+      title: 'Calculate tablets for seven nights',
+      context: 'The same olanzapine dose is prescribed each night for seven nights.',
+      data: [
+        'Tablets per dose: 2',
+        'Number of nights: 7'
+      ],
+      prompt: 'Calculate the total number of 5 mg tablets required for seven nights.',
+      units: ['tablets', 'mg', 'days'],
+      expected: 14,
+      tolerance: 0,
+      unit: 'tablets',
+      formula: 'Total tablets = tablets per dose × number of doses',
+      hint: 'Multiply 2 tablets by 7 nights.',
+      explanation: '2 tablets × 7 nights = 14 tablets.'
+    },
+    {
+      id: 'lithiumSampleTime',
+      topic: 'Timing calculation',
+      title: 'Calculate lithium sample time',
+      context: 'Patricia receives lithium carbonate modified-release at 21:30. A routine trough lithium blood sample is required 12 hours after the dose.',
+      data: [
+        'Lithium dose time: 21:30',
+        'Required sample interval: 12 hours'
+      ],
+      prompt: 'Enter the lithium sample time the following day using 24-hour format.',
+      answerType: 'time',
+      expected: '09:30',
+      formula: 'Sample time = dose time + 12 hours',
+      hint: 'Count forward to midnight, then continue for the remaining hours.',
+      explanation: '21:30 + 12 hours = 09:30 the following day.'
+    },
+    {
+      id: 'patriciaBmi',
+      topic: 'BMI',
+      title: 'Calculate Patricia’s BMI',
+      context: 'Patricia’s admission weight is 79.2 kg and height is 1.68 m.',
+      data: [
+        'Weight: 79.2 kg',
+        'Height: 1.68 m'
+      ],
+      prompt: 'Calculate Patricia’s BMI. Give your answer to one decimal place.',
+      units: ['kg/m²', 'kg', '%'],
+      expected: 28.061,
+      tolerance: 0.06,
+      unit: 'kg/m²',
+      formula: 'BMI = weight (kg) ÷ height² (m²)',
+      hint: 'Square 1.68 first, then divide 79.2 by the answer.',
+      explanation: '79.2 ÷ (1.68 × 1.68) = 28.061…, which rounds to 28.1 kg/m².'
+    },
+    {
+      id: 'patriciaWeightPercent',
+      topic: 'Percentage change',
+      title: 'Calculate percentage weight change',
+      context: 'Patricia’s admission weight is 79.2 kg and follow-up weight is 77.6 kg.',
+      data: [
+        'Admission weight: 79.2 kg',
+        'Follow-up weight: 77.6 kg',
+        'Weight change: 1.6 kg'
+      ],
+      prompt: 'Calculate the percentage weight change from admission to follow-up. Give your answer to one decimal place.',
+      units: ['%', 'kg', 'kg/m²'],
+      expected: 2.0202,
+      tolerance: 0.03,
+      unit: '%',
+      formula: 'Percentage change = (weight difference ÷ admission weight) × 100',
+      hint: 'Divide 1.6 by 79.2, then multiply by 100.',
+      explanation: '(1.6 ÷ 79.2) × 100 = 2.020…%. Rounded to one decimal place, this is 2.0%. The app accepts 2.0% or 2.02%.'
+          }
+        ]
+     },
+            catherine: {
+  id: 'catherine',
+  title: 'Catherine: suspected urosepsis',
+
+  questions: [
+    {
+      id: 'catherineBmi',
+      topic: 'BMI',
+      title: 'Calculate Catherine’s BMI',
+
+      context:
+        'Catherine weighs 70 kg and is 1.65 m tall.',
+
+      data: [
+        'Weight: 70 kg',
+        'Height: 1.65 m'
+      ],
+
+      prompt:
+        'Calculate Catherine’s BMI. Give your answer to one decimal place.',
+
+      units: ['kg/m²', 'kg', '%'],
+      expected: 25.7117,
+      tolerance: 0.06,
+      unit: 'kg/m²',
+
+      formula:
+        'BMI = weight (kg) ÷ height² (m²)',
+
+      hint:
+        'Square 1.65 first, then divide 70 by the answer.',
+
+      explanation:
+        '70 ÷ (1.65 × 1.65) = 25.711…, which rounds to 25.7 kg/m².'
+    },
+
+    {
+      id: 'temperatureDifference',
+      topic: 'Temperature',
+      title: 'Calculate temperature above stated normal',
+
+      context:
+        'Catherine’s temperature is 39.2°C. The stated normal temperature for this exercise is 37.0°C.',
+
+      data: [
+        'Recorded temperature: 39.2°C',
+        'Stated normal temperature: 37.0°C'
+      ],
+
+      prompt:
+        'Calculate how many degrees above the stated normal temperature Catherine’s temperature is.',
+
+      units: ['°C', '°F', 'mmol/L'],
+      expected: 2.2,
+      tolerance: 0.05,
+      unit: '°C',
+
+      formula:
+        'Temperature difference = recorded temperature − stated normal temperature',
+
+      hint:
+        'Subtract 37.0 from 39.2.',
+
+      explanation:
+        '39.2°C − 37.0°C = 2.2°C.'
+    },
+
+    {
+      id: 'catherinePhq',
+      topic: 'Structured score',
+      title: 'Calculate the PHQ-9 total',
+
+      context:
+        'The following PHQ-9 item scores have been documented for Catherine.',
+
+      data: [
+        'Item scores: 1, 1, 2, 2, 1, 0, 1, 0, 0'
+      ],
+
+      prompt:
+        'Add the nine item scores and enter the total.',
+
+      units: ['points', 'score', '%'],
+      expected: 8,
+      tolerance: 0,
+      unit: 'points',
+
+      formula:
+        'PHQ-9 total = sum of all nine item scores',
+
+      hint:
+        'Add each score once.',
+
+      explanation:
+        '1 + 1 + 2 + 2 + 1 + 0 + 1 + 0 + 0 = 8 points.',
+
+      scoreList: [
+        'Little interest or pleasure = 1',
+        'Feeling down, depressed or hopeless = 1',
+        'Trouble sleeping = 2',
+        'Feeling tired or low energy = 2',
+        'Poor appetite or overeating = 1',
+        'Feeling bad about yourself = 0',
+        'Trouble concentrating = 1',
+        'Moving/speaking slowly or restlessness = 0',
+        'Thoughts of self-harm = 0'
+      ]
+    },
+
+    {
+      id: 'catherineNews',
+      topic: 'NEWS2',
+      title: 'Calculate Catherine’s NEWS2 score',
+
+      context:
+        'Use the NEWS2 Scale 1 reference in the Tools drawer.',
+
+      data: [
+        'Respiratory rate: 24 breaths/min',
+        'SpO₂: 95% on room air',
+        'Supplemental oxygen: no',
+        'Temperature: 39.2°C',
+        'Systolic BP: 94 mmHg',
+        'Pulse: 118 bpm',
+        'New confusion: present'
+      ],
+
+      prompt:
+        'Calculate and enter Catherine’s NEWS2 score.',
+
+      units: ['points', 'score', 'bpm'],
+      expected: 12,
+      tolerance: 0,
+      unit: 'points',
+
+      formula:
+        'NEWS2 total = sum of each parameter score',
+
+      hint:
+        'Score each observation separately, then add the scores.',
+
+      explanation:
+        'Respiratory rate 24 = 2; SpO₂ 95% = 1; temperature 39.2°C = 2; ' +
+        'systolic BP 94 = 2; pulse 118 = 2; new confusion = 3; ' +
+        'supplemental oxygen = 0. Total = 12 points.',
+
+      showNews: true,
+
+      scoreList: [
+        'Respiratory rate 24 = 2 points',
+        'SpO₂ 95% on Scale 1 = 1 point',
+        'Supplemental oxygen: no = 0 points',
+        'Temperature 39.2°C = 2 points',
+        'Systolic BP 94 = 2 points',
+        'Pulse 118 = 2 points',
+        'New confusion = 3 points'
+      ]
+    },
+
+    {
+      id: 'sepsisInfusionRate',
+      topic: 'IV infusion rate',
+      title: 'Calculate IV infusion rate',
+
+      context:
+        'A prescribed IV infusion contains 1,000 mL and is to run over two hours.',
+
+      data: [
+        'Total volume: 1,000 mL',
+        'Prescribed time: 2 hours'
+      ],
+
+      prompt:
+        'Calculate the infusion rate in mL/hour.',
+
+      units: ['mL/hour', 'mL/min', 'L/hour'],
+      expected: 500,
+      tolerance: 0,
+      unit: 'mL/hour',
+
+      formula:
+        'Rate = total volume ÷ time',
+
+      hint:
+        'Divide 1,000 mL by 2 hours.',
+
+      explanation:
+        '1,000 mL ÷ 2 hours = 500 mL/hour.'
+    },
+
+    {
+      id: 'antibioticVials',
+      topic: 'Medicine quantity',
+      title: 'Calculate antibiotic vials required',
+
+      context:
+        'A prescribed IV antibiotic dose is 1,200 mg. Available vials each contain 600 mg.',
+
+      data: [
+        'Prescribed dose: 1,200 mg',
+        'Available strength: 600 mg per vial'
+      ],
+
+      prompt:
+        'Calculate the number of vials required.',
+
+      units: ['vials', 'mL', 'tablets'],
+      expected: 2,
+      tolerance: 0,
+      unit: 'vials',
+
+      formula:
+        'Number of vials = prescribed dose ÷ amount per vial',
+
+      hint:
+        'Divide 1,200 mg by 600 mg.',
+
+      explanation:
+        '1,200 mg ÷ 600 mg per vial = 2 vials.'
+    },
+
+    {
+      id: 'lactateReduction',
+      topic: 'Lactate monitoring',
+      title: 'Calculate lactate reduction',
+
+      context:
+        'Catherine’s lactate is reviewed after treatment.',
+
+      data: [
+        'Admission lactate: 4.8 mmol/L',
+        'Current lactate: 2.1 mmol/L'
+      ],
+
+      prompt:
+        'Calculate the reduction in lactate.',
+
+      units: ['mmol/L', 'mg/dL', '%'],
+      expected: 2.7,
+      tolerance: 0.05,
+      unit: 'mmol/L',
+
+      formula:
+        'Lactate reduction = admission lactate − current lactate',
+
+      hint:
+        'Subtract the current lactate from the admission lactate.',
+
+      explanation:
+        '4.8 mmol/L − 2.1 mmol/L = 2.7 mmol/L.'
+    },
+
+    {
+      id: 'antibioticSupply',
+      topic: 'Medicine supply',
+      title: 'Calculate oral antibiotic supply',
+
+      context:
+        'An oral antibiotic is prescribed as one tablet three times daily for seven days.',
+
+      data: [
+        'Dose: 1 tablet',
+        'Frequency: three times daily',
+        'Duration: 7 days'
+      ],
+
+      prompt:
+        'Calculate the total number of tablets required.',
+
+      units: ['tablets', 'mg', 'days'],
+      expected: 21,
+      tolerance: 0,
+      unit: 'tablets',
+
+      formula:
+        'Tablets required = tablets per dose × doses per day × number of days',
+
+      hint:
+        'First calculate the tablets required each day.',
+
+      explanation:
+        '1 tablet × 3 doses/day × 7 days = 21 tablets.'
+    }
+  ]
+},
+william: {
+  id: 'william',
+  title: 'William: ulcerative colitis',
+
+  questions: [
+    {
+      id: 'williamBmi',
+      topic: 'BMI',
+      title: 'Calculate William’s BMI',
+
+      context:
+        'William weighs 65 kg and is 1.74 m tall. He reports recent unintentional weight loss.',
+
+      data: [
+        'Weight: 65 kg',
+        'Height: 1.74 m'
+      ],
+
+      prompt:
+        'Calculate William’s BMI. Give your answer to one decimal place.',
+
+      units: ['kg/m²', 'kg', '%'],
+      expected: 21.469,
+      tolerance: 0.06,
+      unit: 'kg/m²',
+
+      formula:
+        'BMI = weight (kg) ÷ height² (m²)',
+
+      hint:
+        'Square 1.74 first, then divide 65 by the answer.',
+
+      explanation:
+        '65 ÷ (1.74 × 1.74) = 21.469…, which rounds to 21.5 kg/m². ' +
+        'BMI alone does not describe recent nutritional change.'
+    },
+
+    {
+      id: 'williamBowelFrequency',
+      topic: 'Bowel frequency',
+      title: 'Calculate the change in bowel frequency',
+
+      context:
+        'Before his symptoms worsened, William usually opened his bowels once each day. He is now opening his bowels approximately eight times each day.',
+
+      data: [
+        'Usual bowel frequency: 1 motion per day',
+        'Current bowel frequency: 8 motions per day'
+      ],
+
+      prompt:
+        'Calculate the number of additional bowel motions William is experiencing each day.',
+
+      units: ['motions per day', 'motions', 'times per day'],
+      expected: 7,
+      tolerance: 0,
+      unit: 'motions per day',
+
+      formula:
+        'Additional motions = current daily frequency − usual daily frequency',
+
+      hint:
+        'Subtract 1 from 8.',
+
+      explanation:
+        '8 − 1 = 7 additional bowel motions per day.'
+    },
+
+    {
+      id: 'williamNews',
+      topic: 'NEWS2',
+      title: 'Calculate William’s NEWS2 score',
+
+      context:
+        'Use the NEWS2 Scale 1 reference in the Tools drawer.',
+
+      data: [
+        'Respiratory rate: 22 breaths/min',
+        'SpO₂: 97% on room air',
+        'Supplemental oxygen: no',
+        'Temperature: 37.8°C',
+        'Systolic BP: 104 mmHg',
+        'Pulse: 112 bpm',
+        'Consciousness: alert'
+      ],
+
+      prompt:
+        'Calculate and enter William’s NEWS2 score.',
+
+      units: ['points', 'score', 'bpm'],
+      expected: 5,
+      tolerance: 0,
+      unit: 'points',
+
+      formula:
+        'NEWS2 total = sum of each parameter score',
+
+      hint:
+        'Score each observation separately, then add the scores.',
+
+      explanation:
+        'Respiratory rate 22 = 2; SpO₂ 97% = 0; supplemental oxygen = 0; ' +
+        'temperature 37.8°C = 0; systolic BP 104 = 1; pulse 112 = 2; ' +
+        'alert = 0. Total = 5 points.',
+
+      showNews: true,
+
+      scoreList: [
+        'Respiratory rate 22 = 2 points',
+        'SpO₂ 97% on Scale 1 = 0 points',
+        'Supplemental oxygen: no = 0 points',
+        'Temperature 37.8°C = 0 points',
+        'Systolic BP 104 = 1 point',
+        'Pulse 112 = 2 points',
+        'Alert = 0 points'
+      ]
+    },
+
+    {
+      id: 'williamFluidRate',
+      topic: 'IV infusion rate',
+      title: 'Calculate William’s IV fluid rate',
+
+      context:
+        'Following review, William is prescribed 1,000 mL of sodium chloride 0.9% over four hours.',
+
+      data: [
+        'Total volume: 1,000 mL',
+        'Prescribed time: 4 hours'
+      ],
+
+      prompt:
+        'Calculate the infusion rate in mL/hour.',
+
+      units: ['mL/hour', 'mL/min', 'L/hour'],
+      expected: 250,
+      tolerance: 0,
+      unit: 'mL/hour',
+
+      formula:
+        'Rate = total volume ÷ time',
+
+      hint:
+        'Divide 1,000 mL by 4 hours.',
+
+      explanation:
+        '1,000 mL ÷ 4 hours = 250 mL/hour.'
+    },
+
+    {
+      id: 'williamFluidIntake',
+      topic: 'Fluid balance',
+      title: 'Calculate William’s total fluid intake',
+
+      context:
+        'William’s fluid intake is recorded over 24 hours.',
+
+      data: [
+        'Oral fluids: 750 mL',
+        'IV fluids: 2,000 mL'
+      ],
+
+      prompt:
+        'Calculate William’s total fluid intake over 24 hours.',
+
+      units: ['mL', 'L', 'mL/hour'],
+      expected: 2750,
+      tolerance: 0,
+      unit: 'mL',
+
+      formula:
+        'Total fluid intake = oral fluids + IV fluids',
+
+      hint:
+        'Add 750 mL and 2,000 mL.',
+
+      explanation:
+        '750 mL + 2,000 mL = 2,750 mL.'
+    },
+
+    {
+      id: 'williamFluidBalance',
+      topic: 'Fluid balance',
+      title: 'Calculate William’s fluid balance',
+
+      context:
+        'Use William’s 24-hour fluid totals to calculate his balance.',
+
+      data: [
+        'Total fluid intake: 2,750 mL',
+        'Urine output: 1,150 mL',
+        'Measured liquid stool losses: 1,250 mL'
+      ],
+
+      prompt:
+        'Calculate William’s fluid balance. Enter the numerical value only.',
+
+      units: ['mL', '+mL', 'mL/day'],
+      expected: 350,
+      tolerance: 0,
+      unit: 'mL',
+
+      formula:
+        'Fluid balance = total intake − total measured output',
+
+      hint:
+        'Add the two outputs first, then subtract them from intake.',
+
+      explanation:
+        'Total output = 1,150 mL + 1,250 mL = 2,400 mL. ' +
+        'Fluid balance = 2,750 mL − 2,400 mL = +350 mL. ' +
+        'A positive balance alone does not establish adequate hydration.'
+    },
+
+    {
+      id: 'williamWeightGain',
+      topic: 'Weight change',
+      title: 'Calculate William’s weight gain',
+
+      context:
+        'William’s weight is recorded again during his ongoing assessment.',
+
+      data: [
+        'Admission weight: 65 kg',
+        'Current weight: 67 kg'
+      ],
+
+      prompt:
+        'Calculate William’s weight gain in kg.',
+
+      units: ['kg', 'g', '%'],
+      expected: 2,
+      tolerance: 0.05,
+      unit: 'kg',
+
+      formula:
+        'Weight gain = current weight − admission weight',
+
+      hint:
+        'Subtract 65 kg from 67 kg.',
+
+      explanation:
+        '67 kg − 65 kg = 2 kg.'
+    },
+
+    {
+      id: 'williamWeightPercent',
+      topic: 'Weight change',
+      title: 'Calculate percentage weight increase',
+
+      context:
+        'William’s admission weight was 65 kg and his current weight is 67 kg.',
+
+      data: [
+        'Admission weight: 65 kg',
+        'Current weight: 67 kg',
+        'Weight increase: 2 kg'
+      ],
+
+      prompt:
+        'Calculate the percentage increase from William’s admission weight. Give your answer to one decimal place.',
+
+      units: ['%', 'kg', 'points'],
+      expected: 3.0769,
+      tolerance: 0.06,
+      unit: '%',
+
+      formula:
+        'Percentage increase = (weight increase ÷ admission weight) × 100',
+
+      hint:
+        'Divide 2 by 65, then multiply by 100.',
+
+      explanation:
+        '(2 kg ÷ 65 kg) × 100 = 3.076…, which rounds to 3.1%. ' +
+        'Consider weight alongside fluid balance, stool frequency, intake and overall assessment.'
+    }
+  ]
+}
+};
+            const els = {welcome: document.getElementById('welcomeScreen'), choice: document.getElementById('workbookChoiceScreen'), mode: document.getElementById('modeScreen'), workbook: document.getElementById('workbookScreen'), results: document.getElementById('resultsScreen'), understand: document.getElementById('understandCheck'), choose: document.getElementById('chooseWorkbookBtn'), questionCard: document.getElementById('questionCard'), questionDots: document.getElementById('questionDots'), progressText: document.getElementById('progressText'), progressCount: document.getElementById('progressCount'), progressFill: document.getElementById('progressFill'), modeLabel: document.getElementById('modeLabel'), previous: document.getElementById('previousBtn'), next: document.getElementById('nextBtn'), sheet: document.getElementById('toolSheet'), backdrop: document.getElementById('sheetBackdrop'), sheetTitle: document.getElementById('sheetTitle'), calculatorPanel: document.getElementById('calculatorPanel'), formulaPanel: document.getElementById('formulaPanel'), conversionPanel: document.getElementById('conversionPanel'), newsPanel: document.getElementById('newsPanel'), scorePanel: document.getElementById('scorePanel'), resultScore: document.getElementById('resultScore'), resultMessage: document.getElementById('resultMessage'), resultList: document.getElementById('resultList'), retryCard: document.getElementById('retryCard'), retryText: document.getElementById('retryText')};
+            const getWorkbook = () => workbooks[activeWorkbookId], getQuestions = () => getWorkbook().questions, getKey = () => STORAGE_PREFIX + activeWorkbookId, total = () => getQuestions().length, modeName = m => ({learn: 'Learn', practice: 'Practice', challenge: 'Challenge'})[m] || 'Practice', esc = v => String(v ?? '').replace(/[&<>'"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[c]));
+            function loadState() {state = emptyState(); try {const s = JSON.parse(localStorage.getItem(getKey())); if (s && typeof s === 'object') Object.assign(state, s)} catch (_) { } state.answers ||= {}; state.attempts ||= {}; state.checked ||= {}; state.calculatorHistory ||= []} 
+            function saveState() {localStorage.setItem(getKey(), JSON.stringify(state)); updateWorkbookCards()} function clearState() {localStorage.removeItem(getKey()); state = emptyState()} function showScreen(n) {[els.welcome, els.choice, els.mode, els.workbook, els.results].forEach(s => s.classList.remove('active')); els[n].classList.add('active'); window.scrollTo({top: 0, behavior: 'smooth'})} 
+            function updateLabels() {document.querySelectorAll('[data-workbook-title]').forEach(e => e.textContent = getWorkbook().title)} 
+            function updateWorkbookCards() {Object.keys(workbooks).forEach(id => {let saved; try {saved = JSON.parse(localStorage.getItem(STORAGE_PREFIX + id))} catch (_) {saved = null} const sub = Object.keys(saved?.checked || {}).length, target = document.getElementById(id + 'Saved'); if (target) target.textContent = sub ? `Saved progress: ${sub} of ${workbooks[id].questions.length} submitted.` : 'No saved progress yet.'})}
+            function existingSessionInfo() {const card = document.getElementById('existingSessionCard'), c = Object.keys(state.answers).length; if (!c) {card.style.display = 'none'; return } card.style.display = 'block'; card.innerHTML = `<h2>Saved workbook</h2><p class="muted">You have saved answers in ${modeName(state.mode)} mode.</p><div class="button-row"><button id="continueSessionBtn" class="btn outline" type="button">Continue saved ${modeName(state.mode)} session</button></div>`; document.getElementById('continueSessionBtn').addEventListener('click', () => {renderWorkbook(); showScreen('workbook')})}
+            function renderWorkbook() {state.current = Math.max(0, Math.min(state.current, total() - 1)); const q = getQuestions()[state.current], submitted = Object.keys(state.checked).length, challenge = state.mode === 'challenge'; updateLabels(); els.modeLabel.textContent = `${modeName(state.mode)} mode`; els.progressText.textContent = `Question ${state.current + 1} of ${total()}`; els.progressCount.textContent = `${submitted} submitted`; els.progressFill.style.width = `${submitted / total() * 100}%`; els.questionDots.innerHTML = getQuestions().map((x, i) => {let cls = 'q-dot'; if (i === state.current) cls += ' current'; if (state.checked[x.id]) cls += challenge ? ' saved' : state.checked[x.id].correct ? ' correct' : ' incorrect'; return `<button class="${cls}" type="button" data-index="${i}" aria-label="Go to question ${i + 1}">${challenge && state.checked[x.id] ? '✓' : i + 1}</button>`}).join(''); els.questionDots.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {state.current = Number(b.dataset.index); saveState(); renderWorkbook()})); renderQuestion(q); els.previous.disabled = state.current === 0; els.next.textContent = state.current === total() - 1 ? 'Finish workbook' : 'Next question'}
+            function renderQuestion(q) {
+  const a = state.answers[q.id] || {
+    value: '',
+    unit: '',
+    working: ''
+  };
+
+  const checked = state.checked[q.id];
+  const challenge = state.mode === 'challenge';
+  const submitted = !!checked;
+
+  let tools = '';
+
+  if (challenge) {
+    tools = `
+      <div class="tool-row two">
+        <button class="tool-btn" data-tool="calculator" type="button">
+          Calculator
+        </button>
+
+        <button class="tool-btn dimmed" type="button" disabled>
+          Formula & units hidden
+        </button>
+      </div>
+    `;
+  } else {
+    tools = `
+      <div class="tool-row ${q.showNews ? '' : 'two'}">
+        <button class="tool-btn" data-tool="calculator" type="button">
+          Calculator
+        </button>
+
+        <button class="tool-btn" data-tool="formula" type="button">
+          Formula
+        </button>
+
+        <button class="tool-btn" data-tool="conversion" type="button">
+          Units
+        </button>
+
+        ${q.showNews ? `
+          <button class="tool-btn" data-tool="news" type="button">
+            NEWS2
+          </button>
+        ` : ''}
+      </div>
+    `;
+  }
+
+  if (q.scoreList && !challenge) {
+    tools += `
+      <div class="tool-row two">
+        <button class="tool-btn" data-tool="scores" type="button">
+          View item scores
+        </button>
+      </div>
+    `;
+  }
+
+  let answerInputHtml = '';
+
+  if (q.answerType === 'time') {
+    answerInputHtml = `
+      <div class="answer-area">
+        <label for="timeAnswer">Your answer</label>
+
+        <input
+          id="timeAnswer"
+          type="time"
+          value="${esc(a.value || '')}"
+          aria-label="Time answer"
+        >
+      </div>
+    `;
+  } else {
+    answerInputHtml = `
+      <div class="answer-area">
+        <label for="numericAnswer">Your answer</label>
+
+        <div class="answer-row">
+          <input
+            id="numericAnswer"
+            inputmode="decimal"
+            type="number"
+            step="any"
+            placeholder="Number"
+            value="${esc(a.value || '')}"
+            aria-label="Numerical answer"
+          >
+
+          <select id="unitAnswer" aria-label="Unit">
+            <option value="">Select unit</option>
+
+            ${q.units.map(function(unit) {
+              return `
+                <option
+                  value="${esc(unit)}"
+                  ${a.unit === unit ? 'selected' : ''}
+                >
+                  ${unit}
+                </option>
+              `;
+            }).join('')}
+          </select>
+        </div>
+      </div>
+    `;
+  }
+
+  els.questionCard.innerHTML = `
+    <div class="question-topic">${q.topic}</div>
+
+    <h2>${q.title}</h2>
+
+    <p class="muted">${q.context}</p>
+
+    <div class="context-box">
+      <strong>Information provided</strong>
+
+      <div class="data-list">
+        ${q.data.map(function(item) {
+          return `<div class="data-item">${item}</div>`;
+        }).join('')}
+      </div>
+    </div>
+
+    <p><strong>${q.prompt}</strong></p>
+
+    ${challenge ? `
+      <div class="challenge-message">
+        Challenge mode: formulas, conversion prompts and item-score lists are hidden.
+        Your answer is marked only when you finish the workbook.
+      </div>
+    ` : ''}
+
+    ${answerInputHtml}
+
+    <button id="workingToggle" class="working-toggle" type="button">
+      Show calculation working
+    </button>
+
+    <div
+      id="workingWrap"
+      class="working-wrap ${a.working ? 'open' : ''}"
+    >
+      <label for="workingAnswer" class="small">
+        Your working (optional)
+      </label>
+
+      <textarea
+        id="workingAnswer"
+        placeholder="For example: 1000 ÷ 8 = 125"
+      >${esc(a.working || '')}</textarea>
+    </div>
+
+    ${tools}
+
+    ${state.mode === 'learn' ? `
+      <div class="question-actions">
+        <button id="hintBtn" class="btn outline" type="button">
+          Show hint
+        </button>
+      </div>
+    ` : ''}
+
+    <div id="hintBox" class="feedback info"></div>
+
+    <div class="question-actions">
+      <button
+        id="checkBtn"
+        class="btn ${submitted && challenge ? 'save-btn saved' : ''}"
+        type="button"
+      >
+        ${challenge
+          ? (submitted ? '✓ Answer saved' : 'Save answer')
+          : 'Check answer'}
+      </button>
+    </div>
+
+    <div id="feedbackBox" class="feedback"></div>
+  `;
+
+  const workingToggle = document.getElementById('workingToggle');
+
+  if (workingToggle) {
+    workingToggle.addEventListener('click', function() {
+      const workingWrap = document.getElementById('workingWrap');
+
+      if (workingWrap) {
+        workingWrap.classList.toggle('open');
+      }
+    });
+  }
+
+  const workingAnswer = document.getElementById('workingAnswer');
+
+  if (workingAnswer) {
+    workingAnswer.addEventListener('input', saveInputs);
+  }
+
+  if (q.answerType === 'time') {
+    const timeAnswer = document.getElementById('timeAnswer');
+
+    if (timeAnswer) {
+      timeAnswer.addEventListener('change', saveInputs);
+    }
+  } else {
+    const numericAnswer = document.getElementById('numericAnswer');
+    const unitAnswer = document.getElementById('unitAnswer');
+
+    if (numericAnswer) {
+      numericAnswer.addEventListener('input', saveInputs);
+    }
+
+    if (unitAnswer) {
+      unitAnswer.addEventListener('change', saveInputs);
+    }
+  }
+
+  const toolButtons = document.querySelectorAll('[data-tool]');
+
+  toolButtons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      openTool(button.dataset.tool, q);
+    });
+  });
+
+  const checkButton = document.getElementById('checkBtn');
+
+  if (checkButton) {
+    checkButton.addEventListener('click', function() {
+      submitQuestion(q);
+    });
+  }
+
+  if (state.mode === 'learn') {
+    const hintButton = document.getElementById('hintBtn');
+
+    if (hintButton) {
+      hintButton.addEventListener('click', function() {
+        const hintBox = document.getElementById('hintBox');
+
+        if (hintBox) {
+          hintBox.innerHTML = `<strong>Hint:</strong> ${q.hint}`;
+          hintBox.classList.add('show');
+        }
+      });
+    }
+  }
+
+  if (checked && !challenge) {
+    showFeedback(q, checked);
+  }
+
+  if (checked && challenge) {
+    const feedbackBox = document.getElementById('feedbackBox');
+
+    if (feedbackBox) {
+      feedbackBox.className = 'saved-message';
+
+      feedbackBox.innerHTML =
+        '<strong>✓ Answer saved.</strong> ' +
+        'You can change and save it again before finishing the workbook.';
+    }
+  }
+}
+            function saveInputs() {
+  const q = getQuestions()[state.current];
+
+  if (q.answerType === 'time') {
+    state.answers[q.id] = {
+      value: document.getElementById('timeAnswer').value,
+      unit: '',
+      working: document.getElementById('workingAnswer').value
+    };
+  } else {
+    state.answers[q.id] = {
+      value: document.getElementById('numericAnswer').value,
+      unit: document.getElementById('unitAnswer').value,
+      working: document.getElementById('workingAnswer').value
+    };
+  }
+
+  saveState();
+}
+            function evaluate(q, a) {
+  if (q.answerType === 'time') {
+    const correct = a.value === q.expected;
+
+    return {
+      correct: correct,
+      numericOk: correct,
+      unitOk: true
+    };
+  }
+
+  const value = Number(a.value);
+
+  const numericOk =
+    Number.isFinite(value) &&
+    Math.abs(value - q.expected) <= q.tolerance;
+
+  const unitOk = a.unit === q.unit;
+
+  return {
+    correct: numericOk && unitOk,
+    numericOk: numericOk,
+    unitOk: unitOk
+  };
+}
+            function submitQuestion(q) {
+  saveInputs();
+
+  const answer = state.answers[q.id];
+
+  const answerIncomplete = q.answerType === 'time'
+    ? answer.value === ''
+    : answer.value === '' || !answer.unit;
+
+  if (answerIncomplete) {
+    const feedbackBox = document.getElementById('feedbackBox');
+
+    feedbackBox.className = 'feedback error show';
+
+    feedbackBox.innerHTML = q.answerType === 'time'
+      ? '<strong>Complete your answer.</strong><br>Enter the time before continuing.'
+      : '<strong>Complete your answer.</strong><br>Enter a numerical value and select a unit before continuing.';
+
+    return;
+  }
+
+  const result = evaluate(q, answer);
+
+  state.checked[q.id] = result;
+
+  state.attempts[q.id] =
+    (state.attempts[q.id] || 0) + 1;
+
+  saveState();
+
+  if (state.mode === 'challenge') {
+    renderWorkbook();
+  } else {
+    showFeedback(q, result);
+    renderWorkbook();
+  }
+}
+           function showFeedback(q, r) {
+  const feedbackBox = document.getElementById('feedbackBox');
+
+  feedbackBox.classList.add('show');
+
+  if (q.answerType === 'time') {
+    if (r.correct) {
+      feedbackBox.className = 'feedback correct show';
+
+      feedbackBox.innerHTML =
+        `<strong>Correct: ${q.expected}.</strong><br>` +
+        q.explanation;
+    } else {
+      feedbackBox.className = 'feedback error show';
+
+      feedbackBox.innerHTML =
+        '<strong>Not correct.</strong><br>' +
+        'Check the time calculation.<br><br>' +
+        `<strong>Method:</strong> ${q.explanation}`;
+    }
+
+    return;
+  }
+
+  if (r.correct) {
+    feedbackBox.className = 'feedback correct show';
+
+    feedbackBox.innerHTML =
+      `<strong>Correct: ${formatAnswer(q)}.</strong><br>` +
+      q.explanation;
+
+    return;
+  }
+
+  let issue = '';
+
+  if (!r.numericOk && !r.unitOk) {
+    issue = 'The numerical value and unit are not both correct.';
+  } else if (!r.numericOk) {
+    issue = 'Check the numerical calculation.';
+  } else {
+    issue =
+      `The numerical value is correct, but the required unit is ` +
+      `<strong>${q.unit}</strong>.`;
+  }
+
+  feedbackBox.className = 'feedback error show';
+
+  feedbackBox.innerHTML =
+    `<strong>Not correct.</strong><br>${issue}<br><br>` +
+    `<strong>Method:</strong> ${q.explanation}`;
+}
+            function formatAnswer(q) {const special = {bmi: '29.1 kg/m²', weightPercent: '4.7%', pefAdmissionPercent: '43.8%', pefPostTreatmentPercent: '66.7%', cylinderHours: '2.83 hours', weightReductionPercent: '1.8%', billBmi: '26.8 kg/m²', patriciaBmi: '28.1 kg/m²', williamBmi: '21.5 kg/m²', williamWeightPercent: '3.1%', patriciaWeightPercent: '2.0%', haemoglobinPercent: '27.8%', catherineBmi: '25.7 kg/m²', thomasBmi: '22.2 kg/m²', averageGlucose: '6.2 mmol/L'}; return special[q.id] || `${q.expected} ${q.unit}`}
+            function openTool(tool, q) {document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('show')); if (tool === 'calculator') {els.sheetTitle.textContent = 'Calculator'; renderCalculator(); els.calculatorPanel.classList.add('show')} if (tool === 'formula') {els.sheetTitle.textContent = 'Formula'; els.formulaPanel.innerHTML = `<div class="reference-list"><div class="reference-item"><strong>Current question</strong><br>${q.formula}</div><div class="reference-item"><strong>Reminder</strong><br>Use the information in the question. The formula does not complete the calculation for you.</div></div>`; els.formulaPanel.classList.add('show')} if (tool === 'conversion') {els.sheetTitle.textContent = 'Units and conversions'; els.conversionPanel.innerHTML = '<div class="reference-list"><div class="reference-item"><strong>Mass</strong><br>1 g = 1,000 mg<br>1 mg = 1,000 micrograms</div><div class="reference-item"><strong>Volume</strong><br>1 L = 1,000 mL</div><div class="reference-item"><strong>Time</strong><br>1 hour = 60 minutes</div><div class="reference-item"><strong>Percentage</strong><br>Percentage = (part ÷ whole) × 100</div><div class="reference-item"><strong>Average</strong><br>Mean = sum of values ÷ number of values</div></div>'; els.conversionPanel.classList.add('show')} if (tool === 'news') {els.sheetTitle.textContent = 'NEWS2 Scale 1 reference'; renderNews(); els.newsPanel.classList.add('show')} if (tool === 'scores') {els.sheetTitle.textContent = (q.id === 'phq' || q.id === 'thomasPhq') ? 'PHQ-9 item scores' : q.id === 'gcs' ? 'Glasgow Coma Scale components' : 'NEWS2 parameter scores'; els.scorePanel.innerHTML = `<p class="small muted">Use this list to add each value. In Challenge mode it is intentionally hidden.</p><div class="score-list">${q.scoreList.map(x => `<div class="score-row">${x}</div>`).join('')}</div>`; els.scorePanel.classList.add('show')} els.backdrop.classList.add('show'); els.sheet.classList.add('show')} function closeSheet() {els.backdrop.classList.remove('show'); els.sheet.classList.remove('show')}
+            function renderCalculator() {els.calculatorPanel.innerHTML = '<div class="calc-display"><div id="calcExpression" class="calc-expression"></div><div id="calcResult" class="calc-result">0</div></div><div id="calcGrid" class="calc-grid"></div><div class="calc-actions"><button id="calcClear" class="btn secondary" type="button">Clear</button><button id="calcBack" class="btn secondary" type="button">Backspace</button><button id="addWorking" class="btn outline" type="button">Copy calculation</button><button id="useNumber" class="btn" type="button">Use result</button></div><p class="small muted" style="margin:9px 0 0"><strong>Copy calculation</strong> adds the full calculation to your working box. <strong>Use result</strong> copies only the final number into your answer; you must still choose the unit.</p><div class="calc-history"><strong>Session history</strong><ul>' + (state.calculatorHistory.length ? state.calculatorHistory.slice(-5).reverse().map(x => `<li>${esc(x)}</li>`).join('') : '<li>No calculations saved yet.</li>') + '</ul></div>'; let exp = '', res = '0'; const keys = ['7', '8', '9', '÷', '4', '5', '6', '×', '1', '2', '3', '−', '.', '0', '=', '+'], grid = document.getElementById('calcGrid'); keys.forEach(k => {const b = document.createElement('button'); b.type = 'button'; b.className = `calc-key ${['÷', '×', '−', '+'].includes(k) ? 'operator' : ''} ${k === '=' ? 'equal' : ''}`; b.textContent = k; b.addEventListener('click', () => {if (k === '=') {try {const safe = exp.replace(/×/g, '*').replace(/÷/g, '/').replace(/−/g, '-'); if (!safe || !/^[0-9+\-*/.()\s]+$/.test(safe)) throw 0; const n = Function(`"use strict";return(${safe})`)(); if (!Number.isFinite(n)) throw 0; res = String(Math.round((n + Number.EPSILON) * 1e6) / 1e6); state.calculatorHistory.push(`${exp} = ${res}`); saveState()} catch (_) {res = 'Error'} } else exp += k; update()}); grid.appendChild(b)}); function update() {document.getElementById('calcExpression').textContent = exp; document.getElementById('calcResult').textContent = res} document.getElementById('calcClear').addEventListener('click', () => {exp = ''; res = '0'; update()}); document.getElementById('calcBack').addEventListener('click', () => {exp = exp.slice(0, -1); update()}); document.getElementById('useNumber').addEventListener('click', () => {const i = document.getElementById('numericAnswer'); if (i && res !== 'Error') {i.value = res; saveInputs(); closeSheet()} }); document.getElementById('addWorking').addEventListener('click', () => {const w = document.getElementById('workingAnswer'); if (w && exp && res !== 'Error') {w.value += `${w.value ? '\n' : ''}${exp} = ${res}`; document.getElementById('workingWrap').classList.add('open'); saveInputs(); closeSheet()} })}
+            function renderNews() {els.newsPanel.innerHTML = '<p class="small muted">Educational Scale 1 reference. Use current RCP NEWS2 resources and local policy in practice.</p><table class="news-table"><thead><tr><th>Parameter</th><th>3</th><th>2</th><th>1</th><th>0</th></tr></thead><tbody><tr><td>Respiratory rate</td><td>≤8 or ≥25</td><td>21–24</td><td>9–11</td><td>12–20</td></tr><tr><td>SpO₂ Scale 1</td><td>≤91%</td><td>92–93%</td><td>94–95%</td><td>≥96%</td></tr><tr><td>Supplemental O₂</td><td>Yes</td><td>—</td><td>—</td><td>No</td></tr><tr><td>Systolic BP</td><td>≤90 or ≥220</td><td>91–100</td><td>101–110</td><td>111–219</td></tr><tr><td>Pulse</td><td>≤40 or ≥131</td><td>111–130</td><td>41–50 or 91–110</td><td>51–90</td></tr><tr><td>Consciousness</td><td>V, P, U or new confusion</td><td>—</td><td>—</td><td>Alert</td></tr><tr><td>Temperature</td><td>≤35.0</td><td>≥39.1</td><td>35.1–36.0 or 38.1–39.0</td><td>36.1–38.0</td></tr></tbody></table>'}
+            function finishWorkbook() {const un = getQuestions().findIndex(q => !state.checked[q.id]); if (un !== -1) {state.current = un; saveState(); renderWorkbook(); alert('Please save an answer for every question before finishing the workbook.'); return } renderResults(); showScreen('results')} function renderResults() {const correct = getQuestions().filter(q => state.checked[q.id]?.correct).length; els.resultScore.textContent = `${correct} / ${total()}`; els.resultMessage.textContent = state.mode === 'challenge' ? 'Your Challenge answers are now marked. Review the worked methods below.' : 'Use the feedback below to guide your next revision step.'; els.resultList.innerHTML = getQuestions().map((q, i) => {const ok = state.checked[q.id]?.correct; return `<li><span>${i + 1}. ${q.title}</span><span class="${ok ? 'status-good' : 'status-bad'}">${ok ? '✓ Correct' : '↺ Revisit'}</span></li>`}).join(''); const wrong = getQuestions().find(q => !state.checked[q.id]?.correct); if (wrong) {els.retryCard.style.display = 'block'; els.retryText.textContent = `Try one focused question: ${wrong.title}. You will receive immediate feedback.`; state.quickRetry = wrong.id; saveState()} else {els.retryCard.style.display = 'none'; state.quickRetry = null; saveState()} }
+            function startMode(m) {state.mode = m; state.current = 0; state.answers = {}; state.attempts = {}; state.checked = {}; state.calculatorHistory = []; state.quickRetry = null; saveState(); renderWorkbook(); showScreen('workbook')} function repeatWorkbook() {state.current = 0; state.answers = {}; state.attempts = {}; state.checked = {}; state.calculatorHistory = []; state.quickRetry = null; saveState(); showScreen('mode'); existingSessionInfo()} function quickRetry() {const i = getQuestions().findIndex(q => q.id === state.quickRetry); if (i < 0) return; state.mode = 'learn'; state.current = i; state.answers[getQuestions()[i].id] = {value: '', unit: '', working: ''}; delete state.checked[getQuestions()[i].id]; saveState(); renderWorkbook(); showScreen('workbook')}
+            document.getElementById('aboutButton').addEventListener('click', () => document.getElementById('aboutModal').classList.add('show')); document.querySelectorAll('[data-close-modal]').forEach(b => b.addEventListener('click', () => b.closest('.modal').classList.remove('show'))); document.getElementById('confirmReset').addEventListener('click', () => {clearState(); document.getElementById('resetModal').classList.remove('show'); updateWorkbookCards(); showScreen('choice')}); document.getElementById('resetBtn').addEventListener('click', () => document.getElementById('resetModal').classList.add('show')); els.understand.addEventListener('change', () => {state.accepted = els.understand.checked; localStorage.setItem(getKey(), JSON.stringify(state)); els.choose.disabled = !state.accepted}); els.choose.addEventListener('click', () => {updateWorkbookCards(); showScreen('choice')}); document.getElementById('backToWelcomeFromWorkbooks').addEventListener('click', () => {activeWorkbookId = 'frank'; loadState(); els.understand.checked = !!state.accepted; els.choose.disabled = !state.accepted; showScreen('welcome')}); document.querySelectorAll('.choose-workbook').forEach(b => b.addEventListener('click', () => {activeWorkbookId = b.dataset.workbook; loadState(); updateLabels(); showScreen('mode'); existingSessionInfo()})); document.getElementById('backToWorkbooks').addEventListener('click', () => {updateWorkbookCards(); showScreen('choice')}); document.querySelectorAll('.mode-card').forEach(b => b.addEventListener('click', () => startMode(b.dataset.mode))); document.getElementById('leaveWorkbook').addEventListener('click', () => {saveState(); showScreen('mode'); existingSessionInfo()}); els.previous.addEventListener('click', () => {if (state.current > 0) {state.current--; saveState(); renderWorkbook()} }); els.next.addEventListener('click', () => {if (state.current === total() - 1) finishWorkbook(); else {state.current++; saveState(); renderWorkbook()} }); document.getElementById('closeSheet').addEventListener('click', closeSheet); els.backdrop.addEventListener('click', closeSheet); document.getElementById('resultsHome').addEventListener('click', () => {updateWorkbookCards(); showScreen('choice')}); document.getElementById('repeatBtn').addEventListener('click', repeatWorkbook); document.getElementById('quickRetryBtn').addEventListener('click', quickRetry); document.getElementById('reviewBtn').addEventListener('click', () => {state.mode = 'learn'; state.current = 0; saveState(); renderWorkbook(); showScreen('workbook')}); loadState(); els.understand.checked = !!state.accepted; els.choose.disabled = !state.accepted; updateWorkbookCards();
+        })();
+    </script>
+</body>
+
+</html>
