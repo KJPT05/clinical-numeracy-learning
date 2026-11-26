@@ -1,0 +1,143 @@
+// Catherine: suspected urosepsis
+// See README.md ("Adding questions") for what each field does.
+NUMERACY.addWorkbook({
+  id: "catherine",
+  title: "Catherine: suspected urosepsis",
+  system: "Immune system and infection",
+  theme: "immune",
+  summary: "Observations, NEWS2, fluid bolus and infusion rates, medicine quantities, lactate and supply.",
+  questions: [
+    {
+      id: "catherineBmi",
+      topic: "BMI",
+      title: "Calculate Catherine’s BMI",
+      context: "Catherine weighs 70 kg and is 1.65 m tall.",
+      data: ["Weight: 70 kg", "Height: 1.65 m"],
+      prompt: "Calculate Catherine’s BMI. Give your answer to one decimal place.",
+      expected: 70 / (1.65 * 1.65),
+      dp: 1,
+      unit: "kg/m²",
+      units: ["kg/m²", "kg", "%"],
+      formula: "BMI = weight (kg) ÷ height² (m²)",
+      hint: "Square 1.65 first, then divide 70 by the answer.",
+      explanation: "70 ÷ (1.65 × 1.65) = 25.711…, which rounds to 25.7 kg/m²."
+    },
+    {
+      id: "temperatureDifference",
+      topic: "Temperature",
+      title: "Calculate temperature above stated normal",
+      context: "Catherine’s temperature is 39.2°C. The stated normal temperature for this exercise is 37.0°C.",
+      data: ["Recorded temperature: 39.2°C", "Stated normal temperature: 37.0°C"],
+      prompt: "Calculate how many degrees above the stated normal temperature Catherine’s temperature is.",
+      expected: 2.2,
+      unit: "°C",
+      units: ["°C", "°F", "mmol/L"],
+      formula: "Temperature difference = recorded temperature − stated normal temperature",
+      hint: "Subtract 37.0 from 39.2.",
+      explanation: "39.2°C − 37.0°C = 2.2°C."
+    },
+    {
+      id: "catherineNews",
+      topic: "NEWS2",
+      title: "Calculate Catherine’s NEWS2 score",
+      context: "Use the NEWS2 Scale 1 reference in the Tools drawer.",
+      data: [
+        "Respiratory rate: 24 breaths/min",
+        "SpO₂: 95% on room air",
+        "Supplemental oxygen: no",
+        "Temperature: 39.2°C",
+        "Systolic BP: 94 mmHg",
+        "Pulse: 118 bpm",
+        "New confusion: present"
+      ],
+      prompt: "Calculate and enter Catherine’s NEWS2 score.",
+      expected: 12,
+      unit: "points",
+      units: ["points", "score", "bpm"],
+      formula: "NEWS2 total = sum of each parameter score",
+      hint: "Score each observation separately, then add the scores.",
+      explanation: "Respiratory rate 24 = 2; SpO₂ 95% = 1; temperature 39.2°C = 2; systolic BP 94 = 2; pulse 118 = 2; new confusion = 3; supplemental oxygen = 0. Total = 12 points.",
+      scoreTitle: "NEWS2 parameter scores",
+      scoreList: [
+        "Respiratory rate 24 = 2 points",
+        "SpO₂ 95% on Scale 1 = 1 point",
+        "Supplemental oxygen: no = 0 points",
+        "Temperature 39.2°C = 2 points",
+        "Systolic BP 94 = 2 points",
+        "Pulse 118 = 2 points",
+        "New confusion = 3 points"
+      ],
+      showNews: true
+    },
+    {
+      id: "sepsisBolusRate",
+      topic: "Fluid bolus rate",
+      title: "Calculate the fluid bolus pump rate",
+      context: "Catherine is hypotensive. A fluid bolus of 500 mL of sodium chloride 0.9% is prescribed over 15 minutes.",
+      data: ["Bolus volume: 500 mL", "Prescribed time: 15 minutes"],
+      prompt: "Calculate the pump rate in mL/hour needed to give the bolus over 15 minutes.",
+      expected: 2000,
+      unit: "mL/hour",
+      units: ["mL/hour", "mL/min", "L/hour"],
+      formula: "Rate (mL/hour) = volume (mL) ÷ time (hours)",
+      hint: "Convert 15 minutes to hours first: 15 ÷ 60.",
+      explanation: "15 minutes = 0.25 hours. 500 mL ÷ 0.25 hours = 2,000 mL/hour. (Equivalent to 500 mL ÷ 15 min × 60.)"
+    },
+    {
+      id: "sepsisInfusionRate",
+      topic: "IV infusion rate",
+      title: "Calculate IV infusion rate",
+      context: "A prescribed IV infusion contains 1,000 mL and is to run over two hours.",
+      data: ["Total volume: 1,000 mL", "Prescribed time: 2 hours"],
+      prompt: "Calculate the infusion rate in mL/hour.",
+      expected: 500,
+      unit: "mL/hour",
+      units: ["mL/hour", "mL/min", "L/hour"],
+      formula: "Rate = total volume ÷ time",
+      hint: "Divide 1,000 mL by 2 hours.",
+      explanation: "1,000 mL ÷ 2 hours = 500 mL/hour."
+    },
+    {
+      id: "antibioticVials",
+      topic: "Medicine quantity",
+      title: "Calculate antibiotic vials required",
+      context: "A prescribed IV antibiotic dose is 1,200 mg. Available vials each contain 600 mg.",
+      data: ["Prescribed dose: 1,200 mg", "Available strength: 600 mg per vial"],
+      prompt: "Calculate the number of vials required.",
+      expected: 2,
+      unit: "vials",
+      units: ["vials", "mL", "tablets"],
+      formula: "Number of vials = prescribed dose ÷ amount per vial",
+      hint: "Divide 1,200 mg by 600 mg.",
+      explanation: "1,200 mg ÷ 600 mg per vial = 2 vials."
+    },
+    {
+      id: "lactateReduction",
+      topic: "Lactate monitoring",
+      title: "Calculate lactate reduction",
+      context: "Catherine’s lactate is reviewed after treatment.",
+      data: ["Admission lactate: 4.8 mmol/L", "Current lactate: 2.1 mmol/L"],
+      prompt: "Calculate the reduction in lactate.",
+      expected: 2.7,
+      unit: "mmol/L",
+      units: ["mmol/L", "mg/dL", "%"],
+      formula: "Lactate reduction = admission lactate − current lactate",
+      hint: "Subtract the current lactate from the admission lactate.",
+      explanation: "4.8 mmol/L − 2.1 mmol/L = 2.7 mmol/L."
+    },
+    {
+      id: "antibioticSupply",
+      topic: "Medicine supply",
+      title: "Calculate oral antibiotic supply",
+      context: "An oral antibiotic is prescribed as one tablet three times daily for seven days.",
+      data: ["Dose: 1 tablet", "Frequency: three times daily", "Duration: 7 days"],
+      prompt: "Calculate the total number of tablets required.",
+      expected: 21,
+      unit: "tablets",
+      units: ["tablets", "mg", "days"],
+      formula: "Tablets required = tablets per dose × doses per day × number of days",
+      hint: "First calculate the tablets required each day.",
+      explanation: "1 tablet × 3 doses/day × 7 days = 21 tablets."
+    }
+  ]
+});
