@@ -124,7 +124,7 @@ NUMERACY.addWorkbook({
       id: "lauraCapsulesSupply",
       topic: "Discharge supply",
       title: "Calculate the antibiotic supply",
-      context: "Laura is prescribed cefalexin 500 mg three times daily for five further days. The supplied capsules contain 250 mg each.",
+      context: "After 48 hours of IV antibiotics, Laura is prescribed oral cefalexin 500 mg three times daily for five further days, completing a 7-day course. The supplied capsules contain 250 mg each.",
       data: ["Dose: 500 mg", "Frequency: three times daily", "Duration: 5 days", "Available: 250 mg capsules"],
       prompt: "How many capsules are required to complete these five days?",
       expected: 30,

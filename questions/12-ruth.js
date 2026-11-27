@@ -76,7 +76,7 @@ NUMERACY.addWorkbook({
       units: ["mg", "g", "tablets"],
       formula: "Total daily dose = dose × number of doses per day",
       hint: "Multiply 100 by 4.",
-      explanation: "100 mg × 4 doses = 400 mg of levodopa per day."
+      explanation: "100 mg × 4 doses = 400 mg of levodopa per day. This is within the usual adult maintenance range of 400–800 mg of levodopa daily in divided doses."
     },
     {
       id: "ruthIvRate",

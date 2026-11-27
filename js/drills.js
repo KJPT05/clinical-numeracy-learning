@@ -62,7 +62,7 @@
     { drug: 'oral morphine solution', mg: 10, ml: 5, doses: [2.5, 5, 10] },
     { drug: 'furosemide oral solution', mg: 20, ml: 5, doses: [20, 40] },
     { drug: 'flucloxacillin', mg: 250, ml: 5, doses: [250, 500] },
-    { drug: 'lansoprazole suspension', mg: 15, ml: 5, doses: [15, 30] }
+    { drug: 'omeprazole oral suspension', mg: 20, ml: 5, doses: [20, 40] }
   ];
   NUMERACY.addDrill({
     id: 'drill-liquids',
@@ -96,7 +96,7 @@
     { drug: 'furosemide', mg: 50, ml: 5, doses: [20, 40, 60, 80] },
     { drug: 'enoxaparin', mg: 100, ml: 1, doses: [40, 60, 70, 80, 90, 100] },
     { drug: 'morphine sulfate', mg: 10, ml: 1, doses: [2.5, 5, 7.5, 10] },
-    { drug: 'gentamicin', mg: 80, ml: 2, doses: [240, 280, 320, 360, 400] },
+    { drug: 'gentamicin', mg: 80, ml: 2, doses: [80, 100, 120, 140] },
     { drug: 'ondansetron', mg: 4, ml: 2, doses: [4, 8] },
     { drug: 'metoclopramide', mg: 10, ml: 2, doses: [10] },
     { drug: 'cyclizine', mg: 50, ml: 1, doses: [25, 50] }
@@ -235,7 +235,7 @@
   // ---------- Weight-based doses ----------
   const weightDoses = [
     () => { const w = randInt(50, 110); return { drug: 'enoxaparin', per: 1, unit: 'mg', w, text: '1 mg/kg' }; },
-    () => { const w = randInt(50, 90); return { drug: 'gentamicin', per: 5, unit: 'mg', w, text: '5 mg/kg' }; },
+    () => { const w = randInt(51, 90, 3); return { drug: 'gentamicin', per: 5, unit: 'mg', w, text: '5 mg/kg daily', divide: 3 }; },
     () => { const w = randInt(30, 90); return { drug: 'IV lorazepam', per: 0.1, unit: 'mg', w, text: '0.1 mg/kg', max: 4 }; },
     () => { const w = randInt(35, 49); return { drug: 'IV paracetamol', per: 15, unit: 'mg', w, text: '15 mg/kg' }; },
     () => { const w = randInt(50, 110); return { drug: 'fixed-rate insulin', per: 0.1, unit: 'units/hour', w, text: '0.1 units/kg/hour' }; }
@@ -243,60 +243,64 @@
   NUMERACY.addDrill({
     id: 'drill-weight',
     title: 'Weight-based doses',
-    summary: 'mg/kg and units/kg/hour doses, including checking against a maximum dose.',
+    summary: 'mg/kg and units/kg/hour doses, including divided daily doses and checking against a maximum dose.',
     count: 10,
     make() {
       const d = pick(weightDoses)();
       const raw = clean(d.per * d.w);
-      const answer = d.max ? Math.min(raw, d.max) : raw;
+      const answer = d.divide ? clean(raw / d.divide) : d.max ? Math.min(raw, d.max) : raw;
       const capped = d.max && raw > d.max;
       return {
         topic: d.max ? 'Weight-based dose with a maximum' : 'Weight-based dose',
         title: `Calculate the ${d.drug} dose`,
-        context: `${d.drug.charAt(0).toUpperCase() + d.drug.slice(1)} is prescribed at ${d.text}${d.max ? `, to a maximum single dose of ${d.max} mg` : ''}. The patient weighs ${d.w} kg.`,
-        data: [`Prescribed: ${d.text}`, ...(d.max ? [`Maximum single dose: ${d.max} mg`] : []), `Weight: ${d.w} kg`],
-        prompt: d.max ? 'Calculate the dose to give, taking the maximum dose into account.' : `Calculate the dose in ${d.unit}.`,
+        context: `${d.drug.charAt(0).toUpperCase() + d.drug.slice(1)} is prescribed at ${d.text}${d.divide ? ` in ${d.divide} divided doses, given every 8 hours` : ''}${d.max ? `, to a maximum single dose of ${d.max} mg` : ''}. The patient’s dosing weight is ${d.w} kg.`,
+        data: [`Prescribed: ${d.text}${d.divide ? ` in ${d.divide} divided doses (every 8 hours)` : ''}`, ...(d.max ? [`Maximum single dose: ${d.max} mg`] : []), `Dosing weight: ${d.w} kg`],
+        prompt: d.divide ? 'Calculate the amount for each 8-hourly dose.' : d.max ? 'Calculate the dose to give, taking the maximum dose into account.' : `Calculate the dose in ${d.unit}.`,
         expected: answer,
         unit: d.unit,
         units: d.unit === 'mg' ? ['mg', 'mg/kg', 'mL'] : ['units/hour', 'units/kg', 'mL/hour'],
-        formula: 'Dose = dose per kg × weight' + (d.max ? ', then compare with the maximum' : ''),
-        hint: `Multiply ${fmt(d.per)} by ${d.w}.` + (d.max ? ' Then check the maximum.' : ''),
-        explanation: `${d.text} × ${d.w} kg = ${fmt(raw)} ${d.unit}.` +
+        formula: 'Dose = dose per kg × weight' + (d.divide ? ', then divide by the number of doses' : '') + (d.max ? ', then compare with the maximum' : ''),
+        hint: `Multiply ${fmt(d.per)} by ${d.w}.` + (d.divide ? ` Then divide the daily total by ${d.divide}.` : '') + (d.max ? ' Then check the maximum.' : ''),
+        explanation: `${d.text.replace(' daily', '')} × ${d.w} kg = ${fmt(raw)} ${d.unit}${d.divide ? ' daily' : ''}.` + (d.divide ? ` ${fmt(raw)} ÷ ${d.divide} = ${fmt(answer)} ${d.unit} every 8 hours.` : '') +
           (d.max ? (capped ? ` This is more than the ${d.max} mg maximum, so give ${d.max} mg.` : ` This is within the ${d.max} mg maximum.`) : '')
       };
     }
   });
 
-  // ---------- Syringe pumps (dose rate to mL/hour) ----------
-  const syringes = [
-    { drug: 'insulin', amount: 50, unit: 'units', vol: 50, rates: [1, 2, 3, 4.5, 6, 7.2, 8.5, 10] },
-    { drug: 'furosemide', amount: 250, unit: 'mg', vol: 50, rates: [5, 10, 15, 20] },
-    { drug: 'heparin', amount: 25000, unit: 'units', vol: 50, rates: [500, 750, 1000, 1250, 1500] },
-    { drug: 'morphine', amount: 50, unit: 'mg', vol: 50, rates: [1, 2, 3, 4] },
-    { drug: 'glyceryl trinitrate', amount: 50, unit: 'mg', vol: 50, rates: [1, 2, 3, 4, 6] }
+  // ---------- Concentrations (mg/mL) ----------
+  const concentrations = [
+    { drug: 'furosemide injection', amount: 50, unit: 'mg', vol: 5 },
+    { drug: 'furosemide injection', amount: 20, unit: 'mg', vol: 2 },
+    { drug: 'gentamicin injection', amount: 80, unit: 'mg', vol: 2 },
+    { drug: 'ondansetron injection', amount: 4, unit: 'mg', vol: 2 },
+    { drug: 'metoclopramide injection', amount: 10, unit: 'mg', vol: 2 },
+    { drug: 'fondaparinux pre-filled syringe', amount: 2.5, unit: 'mg', vol: 0.5 },
+    { drug: 'enoxaparin pre-filled syringe', amount: 40, unit: 'mg', vol: 0.4 },
+    { drug: 'amoxicillin oral suspension', amount: 250, unit: 'mg', vol: 5 },
+    { drug: 'paracetamol oral suspension', amount: 250, unit: 'mg', vol: 5 },
+    { drug: 'oral morphine solution', amount: 10, unit: 'mg', vol: 5 },
+    { drug: 'omeprazole oral suspension', amount: 20, unit: 'mg', vol: 5 }
   ];
   NUMERACY.addDrill({
-    id: 'drill-syringe',
-    title: 'Syringe pump rates',
-    summary: 'Convert a prescribed dose per hour into a pump rate in mL/hour.',
+    id: 'drill-concentration',
+    title: 'Concentrations',
+    summary: 'Work out mg per mL from the amount of drug and the volume it is in.',
     count: 10,
     make() {
-      const s = pick(syringes);
-      const rate = pick(s.rates);
-      const conc = s.amount / s.vol;
-      const answer = clean(rate / conc);
+      const c = pick(concentrations);
+      const answer = clean(c.amount / c.vol);
       return {
-        topic: 'Syringe pump rate',
-        title: `Calculate the ${s.drug} pump rate`,
-        context: `A syringe contains ${fmt(s.amount)} ${s.unit} of ${s.drug} in ${s.vol} mL. The prescribed dose is ${fmt(rate)} ${s.unit}/hour.`,
-        data: [`Syringe: ${fmt(s.amount)} ${s.unit} in ${s.vol} mL`, `Prescribed: ${fmt(rate)} ${s.unit}/hour`],
-        prompt: 'Calculate the pump rate in mL/hour.',
+        topic: 'Concentration',
+        title: `Calculate the concentration of ${c.drug}`,
+        context: `The label on the ${c.drug} says it contains ${fmt(c.amount)} ${c.unit} in ${fmt(c.vol)} mL.`,
+        data: [`Amount of drug: ${fmt(c.amount)} ${c.unit}`, `Volume: ${fmt(c.vol)} mL`],
+        prompt: 'Calculate the concentration in mg/mL.',
         expected: answer,
-        unit: 'mL/hour',
-        units: ['mL/hour', `${s.unit}/hour`, 'mL/min'],
-        formula: `Rate (mL/hour) = dose per hour ÷ concentration (${s.unit}/mL)`,
-        hint: `Work out how many ${s.unit} are in 1 mL first: ${fmt(s.amount)} ÷ ${s.vol}.`,
-        explanation: `${fmt(s.amount)} ${s.unit} ÷ ${s.vol} mL = ${fmt(conc)} ${s.unit}/mL. ${fmt(rate)} ÷ ${fmt(conc)} = ${fmt(answer)} mL/hour.`
+        unit: 'mg/mL',
+        units: ['mg/mL', 'mg', 'mL'],
+        formula: 'Concentration (mg/mL) = amount of drug (mg) ÷ volume (mL)',
+        hint: `Divide ${fmt(c.amount)} by ${fmt(c.vol)}.`,
+        explanation: `${fmt(c.amount)} mg ÷ ${fmt(c.vol)} mL = ${fmt(answer)} mg/mL.`
       };
     }
   });

@@ -22,7 +22,7 @@ An interactive, browser-based resource for clinical-numeracy education and revis
 | 12-ruth.js | Ruth – Parkinson’s disease | 10 |
 | 13-stephen.js | Stephen – acute coronary syndrome | 10 |
 
-**Topic drills** (in `js/drills.js`) – new numbers every attempt: tablets and capsules, oral liquids, injection volumes, unit conversions, infusion pump rates, gravity drip rates, weight-based doses, syringe pump rates, infusion times, and fluid balance.
+**Topic drills** (in `js/drills.js`) – new numbers every attempt: tablets and capsules, oral liquids, injection volumes, concentrations, unit conversions, infusion pump rates, gravity drip rates, weight-based doses, infusion times, and fluid balance.
 
 ## Modes
 
@@ -140,3 +140,4 @@ Current release: v2.0
 - Accessibility: feedback announced to screen readers, keyboard focus managed in the tools drawer and dialogs, Escape closes them, larger question buttons, no browser pop-ups.
 - Progress storage key no longer changes between versions.
 - Statement added that all patients and scenarios are fictional and doses are for calculation practice only.
+- Medicines screening against NICE, SmPCs and the BNF: Stephen's anticoagulant changed to fondaparinux; Luke's nebulisers named (salbutamol and ipratropium); lithium and olanzapine doses aligned with the BNF; lansoprazole suspension replaced with licensed omeprazole suspension; gentamicin uses the BNF 8-hourly regimen; the syringe pump drill is replaced with a concentrations drill.

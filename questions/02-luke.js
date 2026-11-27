@@ -54,15 +54,15 @@ NUMERACY.addWorkbook({
       id: "nebuliserVolume",
       topic: "Volume calculation",
       title: "Calculate nebuliser volume",
-      context: "Two pre-measured liquids are provided for a nebuliser chamber.",
-      data: ["Solution A: 2.5 mL", "Solution B: 2.5 mL"],
+      context: "Luke is prescribed salbutamol 5 mg and ipratropium bromide 500 micrograms, given together by oxygen-driven nebuliser. Salbutamol nebules contain 2.5 mg in 2.5 mL. Ipratropium nebules contain 500 micrograms in 2 mL.",
+      data: ["Salbutamol: 5 mg prescribed; nebules 2.5 mg in 2.5 mL", "Ipratropium bromide: 500 micrograms prescribed; nebules 500 micrograms in 2 mL"],
       prompt: "Calculate the total volume in the nebuliser chamber.",
-      expected: 5,
+      expected: 7,
       unit: "mL",
       units: ["mL", "mg", "L"],
-      formula: "Total volume = volume A + volume B",
-      hint: "Add the two volumes.",
-      explanation: "2.5 mL + 2.5 mL = 5 mL."
+      formula: "Volume of each drug = (dose prescribed ÷ dose in one nebule) × volume of one nebule; total = salbutamol volume + ipratropium volume",
+      hint: "Salbutamol needs two nebules. Ipratropium needs one.",
+      explanation: "Salbutamol: (5 mg ÷ 2.5 mg) × 2.5 mL = 5 mL. Ipratropium: (500 micrograms ÷ 500 micrograms) × 2 mL = 2 mL. Total = 5 mL + 2 mL = 7 mL."
     },
     {
       id: "cylinderMinutes",

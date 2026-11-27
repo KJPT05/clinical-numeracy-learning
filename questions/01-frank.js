@@ -138,7 +138,7 @@ NUMERACY.addWorkbook({
       units: ["mg/min", "mL/min", "mg"],
       formula: "Dose rate (mg/min) = total dose (mg) ÷ time (min)",
       hint: "Divide the total dose by the time.",
-      explanation: "40 mg ÷ 10 min = 4 mg/min."
+      explanation: "40 mg ÷ 10 min = 4 mg/min. This is the maximum recommended rate: IV furosemide should not be given faster than 4 mg/minute."
     },
     {
       id: "urine",

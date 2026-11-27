@@ -62,7 +62,7 @@ NUMERACY.addWorkbook({
       id: "olanzapineTablets",
       topic: "Oral medication",
       title: "Calculate tablets for one dose",
-      context: "Olanzapine 10 mg at night is prescribed. Olanzapine 5 mg tablets are available.",
+      context: "Olanzapine 10 mg at night is prescribed alongside lithium for acute mania. Olanzapine 5 mg tablets are available.",
       data: ["Prescribed dose: 10 mg", "Available strength: 5 mg per tablet"],
       prompt: "Calculate how many tablets are required for one prescribed dose.",
       expected: 2,
@@ -70,7 +70,7 @@ NUMERACY.addWorkbook({
       units: ["tablets", "mg", "mL"],
       formula: "Tablets required = prescribed dose ÷ tablet strength",
       hint: "Divide 10 mg by 5 mg per tablet.",
-      explanation: "10 mg ÷ 5 mg/tablet = 2 tablets."
+      explanation: "10 mg ÷ 5 mg/tablet = 2 tablets. 10 mg daily is the usual starting dose when olanzapine is used in combination therapy for mania."
     },
     {
       id: "olanzapineSupply",
@@ -90,14 +90,14 @@ NUMERACY.addWorkbook({
       id: "lithiumSampleTime",
       topic: "Timing calculation",
       title: "Calculate lithium sample time",
-      context: "Patricia receives lithium carbonate modified-release at 21:30. A routine trough lithium blood sample is required 12 hours after the dose.",
-      data: ["Lithium dose time: 21:30", "Required sample interval: 12 hours"],
+      context: "Patricia takes lithium carbonate modified-release 400 mg once daily at night, at 21:30. A routine trough lithium blood sample is required 12 hours after the dose.",
+      data: ["Lithium carbonate MR: 400 mg at night", "Lithium dose time: 21:30", "Required sample interval: 12 hours"],
       prompt: "Enter the lithium sample time the following day using 24-hour format.",
       answerType: "time",
       expected: "09:30",
       formula: "Sample time = dose time + 12 hours",
       hint: "Count forward to midnight, then continue for the remaining hours.",
-      explanation: "21:30 + 12 hours = 09:30 the following day."
+      explanation: "21:30 + 12 hours = 09:30 the following day. Lithium samples are taken 12 hours after the dose because lithium has a narrow range between a therapeutic and a toxic level."
     },
     {
       id: "patriciaBmi",
