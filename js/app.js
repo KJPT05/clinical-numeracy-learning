@@ -9,8 +9,12 @@
   const LEGACY_PREFIX = 'clinicalNumeracyLearningMultiWorkbookV1_9_';
 
   const WORKBOOKS = NUMERACY.workbooks;
-  const DRILLS = NUMERACY.drills.map(d => Object.assign({ isDrill: true, theme: 'drill', system: 'Topic drill' }, d));
-  const ALL = [...WORKBOOKS, ...DRILLS];
+  // Calculation skills are shown first, in teaching order (simplest first). Ids never change: saved progress uses them.
+  const SKILL_ORDER = ['drill-conversions', 'drill-tablets', 'drill-liquids', 'drill-concentration', 'drill-injections', 'drill-weight', 'drill-pump', 'drill-drip', 'drill-times', 'drill-fluid'];
+  const skillRank = d => { const i = SKILL_ORDER.indexOf(d.id); return i === -1 ? 999 : i; };
+  const DRILLS = [...NUMERACY.drills].sort((a, b) => skillRank(a) - skillRank(b))
+    .map((d, i) => Object.assign({ isDrill: true, theme: 'drill', system: `Skill ${i + 1}` }, d));
+  const ALL = [...DRILLS, ...WORKBOOKS];
   const byId = id => ALL.find(w => w.id === id);
 
   // ---------------------------------------------------------------- storage
@@ -123,7 +127,7 @@
       <p class="card-meta">${label}</p>
       <p class="muted" style="margin-top:0">${esc(wb.summary || '')}</p>
       <p id="saved-${esc(wb.id)}" class="resume-line"></p>
-      <button class="btn choose-workbook" data-workbook="${esc(wb.id)}" type="button">${wb.isDrill ? 'Start drill' : 'Choose ' + esc(firstName(wb))}</button>
+      <button class="btn choose-workbook" data-workbook="${esc(wb.id)}" type="button">${wb.isDrill ? 'Start skill' : 'Choose ' + esc(firstName(wb))}</button>
     </section>`;
   }
   function buildCards() {
@@ -156,7 +160,7 @@
     if (active.intro || active.isDrill) {
       intro.style.display = 'block';
       intro.innerHTML = active.isDrill
-        ? `<h2>About this drill</h2><p class="muted" style="margin:0">${esc(active.summary)} Each attempt gives you ${active.count} new questions.</p>`
+        ? `<h2>About this skill</h2><p class="muted" style="margin:0">${esc(active.summary)} Each attempt gives you ${active.count} new questions.</p>`
         : `<h2>Case summary</h2><p class="muted" style="margin:0">${esc(active.intro)}</p>`;
     } else intro.style.display = 'none';
 
@@ -164,7 +168,7 @@
     const count = Object.keys(state.answers).length;
     if (!count && !state.finished) { card.style.display = 'none'; return; }
     card.style.display = 'block';
-    card.innerHTML = `<h2>Saved ${active.isDrill ? 'drill' : 'workbook'}</h2>
+    card.innerHTML = `<h2>Saved ${active.isDrill ? 'skill practice' : 'workbook'}</h2>
       <p class="muted">You have saved answers in ${modeName(state.mode)} mode. Choosing a mode above starts again${active.isDrill ? ' with new numbers' : ''}.</p>
       <div class="button-row two-col">
         <button id="continueSessionBtn" class="btn outline" type="button">Continue ${modeName(state.mode)} session</button>
@@ -255,7 +259,7 @@
     renderQuestion(q);
     els.previous.disabled = idx === 0;
     const last = idx === list.length - 1;
-    els.next.textContent = last ? (inRetry() || inReview() ? 'Back to results' : (active.isDrill ? 'Finish drill' : 'Finish workbook')) : 'Next question';
+    els.next.textContent = last ? (inRetry() || inReview() ? 'Back to results' : (active.isDrill ? 'Finish skill' : 'Finish workbook')) : 'Next question';
   }
 
   function toolsFor(q, mode) {
